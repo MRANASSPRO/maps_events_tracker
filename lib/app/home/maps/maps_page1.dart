@@ -13,11 +13,10 @@ import 'package:time_tracker_flutter_course/resources/car_pickup.dart';
 
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
-const initialPosition = LatLng(35.8283, -5.3628);
+const initialPosition = LatLng(35.828406,-5.362848);
 
 Map<PolylineId, Polyline> _polylines = <PolylineId, Polyline>{};
-double _originLatitude = 35.828341, _originLongitude = -5.362877;
-double _destLatitude = 35.599752, _destLongitude = -5.339131;
+//double _destLatitude = 35.5997531, _destLongitude = -5.3391261;
 //List<LatLng> polylineCoordinates = [];
 
 class MapsPage01 extends StatefulWidget {
@@ -34,6 +33,7 @@ class MapsPage01 extends StatefulWidget {
 class _MapsPage01State extends State<MapsPage01> {
   Stream<QuerySnapshot> _iceCreamStores;
   final Completer<GoogleMapController> _mapController = Completer();
+  final MapType _maptype = MapType.satellite;
   var _tripDistance = 0;
   var i = 1;
 
@@ -41,8 +41,7 @@ class _MapsPage01State extends State<MapsPage01> {
   void initState() {
     onPlaceSelected();
     super.initState();
-    _iceCreamStores =
-        Firestore.instance.collection('adm_pks').orderBy('name').snapshots();
+    _iceCreamStores = Firestore.instance.collection('adm_pks').orderBy('name').snapshots();
   }
 
   @override
@@ -68,6 +67,7 @@ class _MapsPage01State extends State<MapsPage01> {
                 initialPosition: initialPosition,
                 mapController: _mapController,
                 polylines: _polylines,
+                defaultMapType: _maptype,
               ),
               StoreCarousel(
                 mapController: _mapController,
@@ -103,13 +103,11 @@ class _MapsPage01State extends State<MapsPage01> {
     });
     setState(() {});
 
-    PlaceService.getStep(googleMapsApiKey, _originLatitude, _originLongitude, _destLatitude, _destLongitude)
+    PlaceService.getStep(googleMapsApiKey, originLatitude, originLongitude, destLatitude, destLongitude)
         .then((vl) async {
       TripInfoRes infoRes = vl;
 
       _tripDistance = infoRes.distance;
-      print('distance2');
-      print(_tripDistance);
       setState(() {});
 
       //List<StepsRes> rs = infoRes.steps;;

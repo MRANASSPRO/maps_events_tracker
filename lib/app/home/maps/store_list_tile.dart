@@ -2,11 +2,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_webservice/places.dart';
-import 'api_key.dart';
+//import 'package:google_maps_webservice/places.dart';
+//import 'api_key.dart';
 
 // Places API client used for Place Photos
-final _placesApiClient = GoogleMapsPlaces(apiKey: googleMapsApiKey);
+//final _placesApiClient = GoogleMapsPlaces(apiKey: googleMapsApiKey);
 
 class StoreListTile extends StatefulWidget {
   const StoreListTile({
@@ -26,24 +26,24 @@ class StoreListTile extends StatefulWidget {
 
 class _StoreListTileState extends State<StoreListTile> {
   String _placePhotoUrl = '';
-  bool _disposed = false;
+  //bool _disposed = false;
 
   @override
   void initState() {
     super.initState();
-    _retrievePlacesDetails();
+    //_retrievePlacesDetails();
   }
 
   @override
   void dispose() {
-    _disposed = true;
+    //_disposed = true;
     super.dispose();
   }
 
-  Future<void> _retrievePlacesDetails() async {
+  /*Future<void> _retrievePlacesDetails() async {
     final details = await _placesApiClient.getDetailsByPlaceId(widget.document['placeId'] as String);
     //if (!_disposed) {
-    if(details.result.photos != null){
+    if(details.result.photos != null && !_disposed){
       setState(() {
         _placePhotoUrl = _placesApiClient.buildPhotoUrl(
           photoReference: details.result.photos[0].photoReference,
@@ -55,8 +55,8 @@ class _StoreListTileState extends State<StoreListTile> {
       setState(() {
         _placePhotoUrl = '';
       });
-    } ;
-  }
+    }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class _StoreListTileState extends State<StoreListTile> {
             //: Container(),
             : ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(2)),
-          child: Image.asset('assets/ic_red_car.png', fit: BoxFit.contain),
+          child: Image.asset('assets/150px-Autoroute.png', fit: BoxFit.contain),
         )
       ),
       onTap: () async {
@@ -87,7 +87,7 @@ class _StoreListTileState extends State<StoreListTile> {
                 widget.document['location'].latitude as double,
                 widget.document['location'].longitude as double,
               ),
-              zoom: 16,
+              zoom: 30,
             ),
           ),
         );

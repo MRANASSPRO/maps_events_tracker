@@ -21,9 +21,9 @@ class _CarPickupState extends State<CarPickup> {
           children: <Widget>[
             Positioned(
               bottom: 50,
-              right: 0,
-              left: 0,
-              height: 30,
+              right: 150,
+              left: 150,
+              height: 40,
               child: Container(
                 color: Colors.white,
                 child: Row(
@@ -43,14 +43,14 @@ class _CarPickupState extends State<CarPickup> {
   }
 
   String _getDistanceInfo() {
-    print('distance3');
-    print(widget.distance);
+    print('Total Distance: ${widget.distance}');
+    //print(widget.distance);
     double distanceInKM = widget.distance / 1000;
     return distanceInKM.toString() + ' km';
   }
 
-  double _getTotal() {
+  /*double _getTotal() {
     double distanceInKM = widget.distance / 1000;
     return (distanceInKM * carBloc.getCurrentCar().pricePerKM);
-  }
+  }*/
 }
