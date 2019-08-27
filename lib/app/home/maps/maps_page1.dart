@@ -13,26 +13,30 @@ import 'package:time_tracker_flutter_course/resources/car_pickup.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:time_tracker_flutter_course/model/myPKs.dart' as pks;
-import 'package:time_tracker_flutter_course/model/myLocations.dart'
-    as locations;
+import 'package:dio/dio.dart';
 
 const initialPosition = LatLng(35.828406, -5.362848);
 
 class MapsPage01 extends StatefulWidget {
   const MapsPage01({@required this.title});
 
+  //const MapsPage01();
+
   final String title;
 
   @override
   State<StatefulWidget> createState() {
-    return _MapsPage01State();
+    return MapsPage01State();
   }
 }
 
-class _MapsPage01State extends State<MapsPage01> {
+class MapsPage01State extends State<MapsPage01> {
   Firestore firestore = Firestore.instance;
   Geoflutterfire geo = Geoflutterfire();
-  Stream<QuerySnapshot> _streamRoutePlaces;
+
+  //Stream<QuerySnapshot> _streamRoutePoints;
+  Stream<QuerySnapshot> _streamPK_Points;
+  Dio dio = new Dio();
   Map<PolylineId, Polyline> _polylines = <PolylineId, Polyline>{};
   final Completer<GoogleMapController> _mapController = Completer();
   final MapType _maptype = MapType.satellite;
@@ -41,26 +45,28 @@ class _MapsPage01State extends State<MapsPage01> {
 
   @override
   void initState() {
-    markers.clear();
+    //markers.clear();
     onPlaceSelected();
     super.initState();
-    _streamRoutePlaces = Firestore.instance.collection('adm_pks').orderBy('name').snapshots();
-    //getPolyPoints();
-    getKMPoints();
-    getAndSaveData();
+    _streamPK_Points =
+        Firestore.instance.collection('PK_Points').orderBy('name').snapshots();
+    //_streamRoutePoints = Firestore.instance.collection('adm_pks').orderBy('name').snapshots();
     //getKMPoints();
-    //getPolyPoints();
+    //getPKDistance();
+    //backupData();
   }
 
   @override
   Widget build(BuildContext context) {
-    //getPolyPoints();
+    //getKMPoints();
+    //markers.clear();
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: _streamRoutePlaces,
+        //stream: _streamRoutePoints,
+        stream: _streamPK_Points,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
@@ -68,7 +74,6 @@ class _MapsPage01State extends State<MapsPage01> {
           if (!snapshot.hasData) {
             return Center(child: const Text('Loading...'));
           }
-
           return Stack(
             children: [
               StoreMap(
@@ -77,6 +82,7 @@ class _MapsPage01State extends State<MapsPage01> {
                 mapController: _mapController,
                 polylines: _polylines,
                 defaultMapType: _maptype,
+                //markers: _markers,
               ),
               StoreCarousel(
                 mapController: _mapController,
@@ -96,6 +102,29 @@ class _MapsPage01State extends State<MapsPage01> {
     );
   }
 
+  Future<void> getPKDistance() async {
+    const double originLatitude = 35.607747,
+        originLongitude = -5.337742,
+        destLatitude = 35.5997531,
+        destLongitude = -5.3391261;
+
+    String urlDist =
+        "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=" +
+            originLatitude.toString() +
+            "," +
+            originLongitude.toString() +
+            "&destinations=" +
+            destLatitude.toString() +
+            "," +
+            destLongitude.toString() +
+            "&mode=driving" +
+            "&key=$googleMapsApiKey";
+    Response response = await dio.get(urlDist);
+    print("distancePKi_i++");
+    print(urlDist);
+    print(response.data);
+  }
+
   //Future<Set<Marker>> getPKPoints() async{
   Future<void> getKMPoints() async {
     final pointsSaved = await pks.loadData();
@@ -103,48 +132,54 @@ class _MapsPage01State extends State<MapsPage01> {
       //markers.clear();
       for (final pk in pointsSaved.pks) {
         print(pk.name);
-        final marker = Marker(
+        //final marker = Marker(
+        Marker(
           markerId: MarkerId(pk.name),
-          position: LatLng(pk.coordinates.lat, pk.coordinates.lng),
+          position: LatLng(pk.location.lat, pk.location.lng),
           infoWindow: InfoWindow(
             title: pk.name,
             snippet: pk.address,
           ),
         );
-        markers.add(marker);
+        //markers.add(marker);
+
+        //if (firestore.collection('PK_Points') == null){
+        print('Saving JSON PKs Into Markers');
+        firestore.collection('PK_Points').add({
+          'address': pk.address,
+          'location': GeoPoint(
+            pk.location.lat,
+            pk.location.lng,
+          ),
+          'name': pk.name,
+          'id': pk.id
+        });
+        //}
       }
     });
     //return markers;
   }
 
-  void getAndSaveData() async {
-    if (firestore.collection('PKs') == null) {
-      print('Saving to Another Firestore DB');
-      firestore
-          .collection('adm_pks')
-          .getDocuments()
-          .then((QuerySnapshot snapshot) {
-        //snapshot.documents.forEach((f) => print('${f.data}}'));
-        snapshot.documents.forEach((f) => firestore.collection('PKs').add({
-              'address': f['address'] as String,
-              'coordinates': GeoPoint(
-                f['location'].latitude as double,
-                f['location'].longitude as double,
-              ),
-              'name': f['name'] as String,
-              'placeId': f['placeId'] as String
-            }));
-      });
+  void backupData() async {
+    if (firestore.collection('backup_PKs') == null) {
+    print('Backup Data');
+    firestore
+        .collection('PK_Points')
+        .getDocuments()
+        .then((QuerySnapshot snapshot) {
+      //snapshot.documents.forEach((f) => print('${f.data}}'));
+      snapshot.documents.forEach((f) => firestore.collection('backup_PKs').add({
+            'address': f['address'] as String,
+            'location': GeoPoint(
+              f['location'].latitude as double,
+              f['location'].longitude as double,
+            ),
+            'name': f['name'] as String,
+            'id': f['id'] as String
+          }));
+    });
     }
   }
-
-  /*Future<DocumentReference> _addGeoPoint(
-      double lat, double long, String name) async {
-    print('Saving to Another Firestore DB');
-    GeoFirePoint myPoint = geo.point(latitude: lat, longitude: long);
-    return firestore.collection('places').add(
-        {'address': name, 'coordinates': name, 'name': name, 'placeId': name});
-  }*/
 
   void onPlaceSelected() {
     //var mkId = fromAddress ? "from_address" : "to_address";

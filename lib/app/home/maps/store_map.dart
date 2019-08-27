@@ -7,8 +7,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 //import 'package:permission/permission.dart';
 
 // Hue used by the Google Map Markers to match the theme
-//const _pinkHue = 350.0;
-const _pinkHue = 210.0;
+const _pinkHue = 20.0;
+//const _pinkHue = 210.0;
 Set<Marker> markers;
 
 class StoreMap extends StatelessWidget {
@@ -46,43 +46,39 @@ class StoreMap extends StatelessWidget {
   }
 
   //Set<Marker> retrieveEditMarkers() {
-  void retrieveEditMarkers(){
-    Marker marker;
-    documents.map((document) => markers.add(Marker(
-              markerId: MarkerId(document['placeId'] as String),
-              //onDragEnd:  (LatLng position) {_onMarkerDragEnd(MarkerId(document['placeId'] as String), position);},
-              icon: BitmapDescriptor.defaultMarkerWithHue(_pinkHue),
-              position: LatLng(
-                document['location'].latitude as double,
-                document['location'].longitude as double,
-              ),
-              infoWindow: InfoWindow(
-                title: document['name'] as String,
-                snippet: document['address'] as String,
-              ),
-            ))
-    )
+  void retrieveEditMarkers() {
+    markers = documents
+        .map((document) => Marker(
+      markerId: MarkerId(document['id'] as String),
+      //markerId: MarkerId(document['placeId'] as String),
+      //onDragEnd:  (LatLng position) {_onMarkerDragEnd(MarkerId(document['placeId'] as String), position);},
+      icon: BitmapDescriptor.defaultMarkerWithHue(_pinkHue),
+      position: LatLng(
+        document['location'].latitude as double,
+        document['location'].longitude as double,
+      ),
+      infoWindow: InfoWindow(
+        title: document['name'] as String,
+        snippet: document['address'] as String,
+      ),
+    ))
         .toSet();
-    //markers.add(marker);
-    //print(marker.infoWindow.title);
-    //markers.add(marker);
+
     /*markers = documents
         .map((document) => Marker(
-              markerId: MarkerId(document['placeId'] as String),
-              //onDragEnd:  (LatLng position) {_onMarkerDragEnd(MarkerId(document['placeId'] as String), position);},
-              icon: BitmapDescriptor.defaultMarkerWithHue(_pinkHue),
-              position: LatLng(
-                document['location'].latitude as double,
-                document['location'].longitude as double,
-              ),
-              infoWindow: InfoWindow(
-                title: document['name'] as String,
-                snippet: document['address'] as String,
-              ),
-            ))
+      markerId: MarkerId(document['placeId'] as String),
+      //onDragEnd:  (LatLng position) {_onMarkerDragEnd(MarkerId(document['placeId'] as String), position);},
+      icon: BitmapDescriptor.defaultMarkerWithHue(_pinkHue),
+      position: LatLng(
+        document['location'].latitude as double,
+        document['location'].longitude as double,
+      ),
+      infoWindow: InfoWindow(
+        title: document['name'] as String,
+        snippet: document['address'] as String,
+      ),
+    ))
         .toSet();*/
-    //markers.add(marker);
-    //return markers;
   }
 
 /*void _onMarkerDragEnd(MarkerId markerId, LatLng newPosition) async {

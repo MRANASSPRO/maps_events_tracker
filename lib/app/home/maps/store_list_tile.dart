@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 //import 'package:google_maps_webservice/places.dart';
 //import 'api_key.dart';
 
@@ -26,6 +27,7 @@ class StoreListTile extends StatefulWidget {
 
 class _StoreListTileState extends State<StoreListTile> {
   String _placePhotoUrl = '';
+
   //bool _disposed = false;
 
   @override
@@ -64,20 +66,20 @@ class _StoreListTileState extends State<StoreListTile> {
       title: Text(widget.document['name'] as String),
       subtitle: Text(widget.document['address'] as String),
       leading: Container(
-        width: 100,
-        height: 100,
-        //child: _placePhotoUrl.isNotEmpty
+          width: 100,
+          height: 100,
+          //child: _placePhotoUrl.isNotEmpty
           child: _placePhotoUrl.isNotEmpty
-            ? ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(2)),
-          child: Image.network(_placePhotoUrl, fit: BoxFit.cover),
-        )
-            //: Container(),
-            : ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(2)),
-          child: Image.asset('assets/150px-Autoroute.png', fit: BoxFit.contain),
-        )
-      ),
+              ? ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(2)),
+                  child: Image.network(_placePhotoUrl, fit: BoxFit.cover),
+                )
+              //: Container(),
+              : ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(2)),
+                  child: Image.asset('assets/150px-Autoroute.png',
+                      fit: BoxFit.contain),
+                )),
       onTap: () async {
         final controller = await widget.mapController.future;
         await controller.animateCamera(
@@ -86,6 +88,8 @@ class _StoreListTileState extends State<StoreListTile> {
               target: LatLng(
                 widget.document['location'].latitude as double,
                 widget.document['location'].longitude as double,
+                //widget.document['coordinates'].latitude as double,
+                //widget.document['coordinates'].longitude as double
               ),
               zoom: 30,
             ),

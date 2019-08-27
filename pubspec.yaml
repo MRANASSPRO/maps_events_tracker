@@ -34,6 +34,7 @@ dependencies:
   geoflutterfire: ^2.0.3+5
   http: ^0.12.0+2
   json_serializable: ^3.1.0
+  dio: ^2.1.16
   #maps_toolkit: any
 
 dev_dependencies:

@@ -29,7 +29,8 @@ class _MapsPageState extends State<MapsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const MapsPage01(title: 'Maps View'),
+      body: const MapsPage01(title: 'Map View'),
+      //body: const MapsPage01(),
     );
   }
 
