@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:time_tracker_flutter_course/app/home/maps/api_key.dart';
 import 'package:time_tracker_flutter_course/model/place_item_res.dart';
 import 'package:time_tracker_flutter_course/model/trip_info_res.dart';
+
 //import 'package:time_tracker_flutter_course/repository/network_util.dart';
 //import 'package:time_tracker_flutter_course/repository/PointLatLng.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -63,13 +64,10 @@ class PlaceService {
         var json = _decoder.convert(response.body);
         int distance = json["routes"][0]["legs"][0]["distance"]["value"];
         final PolylinePoints polylinePointsInstance = PolylinePoints();
-        List<PointLatLng> routePoints = await polylinePointsInstance.getRouteBetweenCoordinates(googleApiKey, lat, lng, tolat, tolng);
+        List<PointLatLng> routePoints = await polylinePointsInstance
+            .getRouteBetweenCoordinates(googleApiKey, lat, lng, tolat, tolng);
 
-        tripInfoRes = new TripInfoRes(distance, routePoints);
-        //List<PointLatLng> routePoints = await NetworkUtil.getRouteBetweenCoordinates(googleApiKey, lat, lng, tolat, tolng);
-
-        //print('polypoints recap');
-        //print(routePoints);
+        tripInfoRes = TripInfoRes(distance, routePoints);
       } catch (error) {
         throw Exception(error.toString());
       }
@@ -79,11 +77,9 @@ class PlaceService {
   }
 }
 
-
 /*//static List<StepsRes> _parseSteps(final responseBody) {
   static List<PointLatLng> _parseSteps(final responseBody) {
     var list = responseBody.map<StepsRes>((json) => new StepsRes.fromJson(json)).toList();
 
     return list;
   }*/
-

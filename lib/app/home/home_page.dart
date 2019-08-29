@@ -5,7 +5,8 @@ import 'package:time_tracker_flutter_course/app/home/entries/entries_page.dart';
 import 'package:time_tracker_flutter_course/app/home/jobs/jobs_page.dart';
 import 'package:time_tracker_flutter_course/app/home/maps/maps_page.dart';
 import 'package:time_tracker_flutter_course/app/home/tab_item.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:time_tracker_flutter_course/model/myPKs_jobs.dart' as pks;
 
 class HomePage extends StatefulWidget {
   @override
@@ -13,7 +14,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  //_streamJobs = Firestore.instance.collection('activities').orderBy('id').snapshots();
+  Firestore firestore = Firestore.instance;
+  //Stream<QuerySnapshot> _streamJobs;
   TabItem _currentTab = TabItem.jobs;
+
+  @override
+  void initState() {
+    super.initState();
+    //_streamJobs = Firestore.instance.collection('activities').orderBy('id').snapshots();
+    //getJobs();
+  }
 
   final Map<TabItem, GlobalKey<NavigatorState>> navigatorKeys = {
     TabItem.jobs: GlobalKey<NavigatorState>(),
@@ -21,7 +32,6 @@ class _HomePageState extends State<HomePage> {
     TabItem.account: GlobalKey<NavigatorState>(),
     TabItem.maps: GlobalKey<NavigatorState>(),
   };
-
 
   Map<TabItem, WidgetBuilder> get widgetBuilders {
     return {
@@ -33,6 +43,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _select(TabItem tabItem) {
+    //getJobs();
     if (tabItem == _currentTab) {
       // pop to first route
       navigatorKeys[tabItem].currentState.popUntil((route) => route.isFirst);
@@ -44,7 +55,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async => !await navigatorKeys[_currentTab].currentState.maybePop(),
+      onWillPop: () async =>
+          !await navigatorKeys[_currentTab].currentState.maybePop(),
       child: CupertinoHomeScaffold(
         currentTab: _currentTab,
         onSelectTab: _select,
@@ -54,4 +66,28 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Future<void> getJobs() async {
+    final pointsSaved = await pks.loadData();
+    setState(() {
+      //markers.clear();
+      for (final job in pointsSaved.jobs) {
+        if(firestore.collection('activites').snapshots().length.toString() != '0'){
+        //if (firestore.collection('activites').getDocuments() != null) {
+          print('Saving JSON Jobs to Firebase');
+          firestore
+              .collection('activites').add({'name': job.name, 'id': job.id});
+        }
+        //final marker = Marker(
+        /*Marker(
+          markerId: MarkerId(pk.name),
+          position: LatLng(pk.location.lat, pk.location.lng),
+          infoWindow: InfoWindow(
+            title: pk.name,
+            snippet: pk.address,
+          ),
+        );*/
+        //markers.add(marker);
+      }
+    });
+  }
 }

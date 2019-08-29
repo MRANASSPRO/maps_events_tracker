@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.indigo,
+          //accentColor: Color.fromRGBO(61, 120, 144, 0.5),
         ),
         home: LandingPage(),
       ),

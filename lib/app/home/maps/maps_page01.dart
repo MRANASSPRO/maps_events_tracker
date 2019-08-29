@@ -6,13 +6,11 @@ import 'package:time_tracker_flutter_course/app/home/maps/api_key.dart';
 import 'package:time_tracker_flutter_course/app/home/maps/store_map.dart';
 import 'package:time_tracker_flutter_course/app/home/maps/store_carousel.dart';
 import 'package:time_tracker_flutter_course/model/trip_info_res.dart';
-
-//import 'package:time_tracker_flutter_course/repository/PointLatLng.dart';
 import 'package:time_tracker_flutter_course/services/place_service.dart';
 import 'package:time_tracker_flutter_course/resources/car_pickup.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
-import 'package:time_tracker_flutter_course/model/myPKs.dart' as pks;
+import 'package:time_tracker_flutter_course/model/myPKs_jobs.dart' as pks;
 import 'package:dio/dio.dart';
 
 const initialPosition = LatLng(35.828406, -5.362848);
@@ -36,11 +34,12 @@ class MapsPage01State extends State<MapsPage01> {
 
   //Stream<QuerySnapshot> _streamRoutePoints;
   Stream<QuerySnapshot> _streamPK_Points;
-  Dio dio = new Dio();
+  //Stream<QuerySnapshot> _streamJobs;
   Map<PolylineId, Polyline> _polylines = <PolylineId, Polyline>{};
   final Completer<GoogleMapController> _mapController = Completer();
-  final MapType _maptype = MapType.satellite;
+  final MapType _maptype = MapType.normal;
   var _tripDistance = 0;
+  Dio dio = new Dio();
   var i = 1;
 
   @override
@@ -48,12 +47,12 @@ class MapsPage01State extends State<MapsPage01> {
     //markers.clear();
     onPlaceSelected();
     super.initState();
-    _streamPK_Points =
-        Firestore.instance.collection('PK_Points').orderBy('name').snapshots();
+    _streamPK_Points = Firestore.instance.collection('PK_Points').orderBy('name').snapshots();
     //_streamRoutePoints = Firestore.instance.collection('adm_pks').orderBy('name').snapshots();
+    //_streamJobs = Firestore.instance.collection('entries').orderBy('id').snapshots();
     //getKMPoints();
-    //getPKDistance();
     //backupData();
+    //getPKDistance();
   }
 
   @override
@@ -103,8 +102,8 @@ class MapsPage01State extends State<MapsPage01> {
   }
 
   Future<void> getPKDistance() async {
-    const double originLatitude = 35.607747,
-        originLongitude = -5.337742,
+    const double originLatitude = 35.8283417,
+        originLongitude = -5.3628792,
         destLatitude = 35.5997531,
         destLongitude = -5.3391261;
 
@@ -119,10 +118,9 @@ class MapsPage01State extends State<MapsPage01> {
             destLongitude.toString() +
             "&mode=driving" +
             "&key=$googleMapsApiKey";
-    Response response = await dio.get(urlDist);
-    print("distancePKi_i++");
     print(urlDist);
-    print(response.data);
+    Response distanceResponse = await dio.get(urlDist);
+    print(distanceResponse);
   }
 
   //Future<Set<Marker>> getPKPoints() async{
@@ -162,36 +160,38 @@ class MapsPage01State extends State<MapsPage01> {
 
   void backupData() async {
     if (firestore.collection('backup_PKs') == null) {
-    print('Backup Data');
-    firestore
-        .collection('PK_Points')
-        .getDocuments()
-        .then((QuerySnapshot snapshot) {
-      //snapshot.documents.forEach((f) => print('${f.data}}'));
-      snapshot.documents.forEach((f) => firestore.collection('backup_PKs').add({
-            'address': f['address'] as String,
-            'location': GeoPoint(
-              f['location'].latitude as double,
-              f['location'].longitude as double,
-            ),
-            'name': f['name'] as String,
-            'id': f['id'] as String
-          }));
-    });
+      print('Backup Data');
+      firestore
+          .collection('PK_Points')
+          .getDocuments()
+          .then((QuerySnapshot snapshot) {
+        //snapshot.documents.forEach((f) => print('${f.data}}'));
+        snapshot.documents
+            .forEach((f) => firestore.collection('backup_PKs').add({
+                  'address': f['address'] as String,
+                  'location': GeoPoint(
+                    f['location'].latitude as double,
+                    f['location'].longitude as double,
+                  ),
+                  'name': f['name'] as String,
+                  'id': f['id'] as String
+                }));
+      });
     }
   }
 
   void onPlaceSelected() {
+    _checkDrawPolyline();
+    //PolylineId polyId = PolylineId(i.toString());
+    //_checkDrawPolyline(polyId);
+
     //var mkId = fromAddress ? "from_address" : "to_address";
-    PolylineId polyId = PolylineId(i.toString());
     //_addMarker(mkId, place);
     //_moveCamera();
-    _checkDrawPolyline(polyId);
-    print(i);
-    i++;
+    //i++;
   }
 
-  void _checkDrawPolyline(PolylineId polyId) async {
+  void _checkDrawPolyline() async {
     setState(() {
       _polylines.clear();
     });
@@ -202,24 +202,25 @@ class MapsPage01State extends State<MapsPage01> {
         .then((vl) async {
       TripInfoRes infoRes = vl;
 
-      _tripDistance = infoRes.distance;
-      setState(() {});
+      //_tripDistance = infoRes.distance;
 
-      //List<StepsRes> rs = infoRes.steps;;
+      setState(() {
+        _tripDistance = infoRes.distance;
+      });
+
+      //List<StepsRes> rs = infoRes.steps;
+
       List<PointLatLng> rs = infoRes.polylinePoints;
-      List<LatLng> paths = new List();
+      List<LatLng> paths = List();
       for (var t in rs) {
         paths.add(LatLng(t.latitude, t.longitude));
       }
 
-      //print('snaps received');
-      //print(paths);
-
       PolylineId id = PolylineId('1');
       final Polyline poly = Polyline(
         polylineId: id,
-        color: Colors.blue,
-        width: 4,
+        color: Colors.blueAccent,
+        width: 7,
         points: paths,
       );
       setState(() {
@@ -228,37 +229,3 @@ class MapsPage01State extends State<MapsPage01> {
     });
   }
 }
-
-/*Polyline _addPolyLine(PolylineId polyId) {
-      PolylineId id = PolylineId("1");
-      Polyline poly = Polyline(
-          polylineId: id,
-          color: Colors.blue,
-          width: 4,
-          points: polylineCoordinates);
-      setState(() {
-        _polylines[id] = poly;
-        //print(polylineCoordinates);
-        //print(polylines.values);
-      });
-      return poly;
-    }
-
-    _getPolyline() async {
-    //List<PointLatLng> result = polylinePoints.decodePolyline("");
-    List<PointLatLng> result = await polylinePoints.getRouteBetweenCoordinates(
-        googleAPiKey,
-        _originLatitude,
-        _originLongitude,
-        _destLatitude,
-        _destLongitude);
-    if (result.isNotEmpty) {
-      //print(result);
-      //print('not empty');
-      result.forEach((PointLatLng point) {
-        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-        //_addGeoPoint(point.latitude, point.longitude, point.toString());
-      });
-    }
-    //_addPolyLine(polyId);
-  }*/

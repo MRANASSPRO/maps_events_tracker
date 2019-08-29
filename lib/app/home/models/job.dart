@@ -3,10 +3,11 @@ import 'dart:ui';
 import 'package:meta/meta.dart';
 
 class Job {
-  Job({@required this.id, @required this.name, @required this.ratePerHour});
+  //Job({@required this.id, @required this.name, @required this.ratePerHour});
+  Job({@required this.id, @required this.name});
   final String id;
   final String name;
-  final int ratePerHour;
+  //final int ratePerHour;
 
   factory Job.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
@@ -16,30 +17,34 @@ class Job {
     if (name == null) {
       return null;
     }
-    final int ratePerHour = data['ratePerHour'];
-    return Job(id: documentId, name: name, ratePerHour: ratePerHour);
+    //final int ratePerHour = data['ratePerHour'];
+    return Job(id: documentId, name: name, );
+    //return Job(id: documentId, name: name, ratePerHour: ratePerHour);
   }
 
   Map<String, dynamic> toMap() {
     return {
       'name': name,
-      'ratePerHour': ratePerHour,
+      'id': id,
+      //'ratePerHour': ratePerHour,
     };
   }
 
   @override
-  int get hashCode => hashValues(id, name, ratePerHour);
+  int get hashCode => hashValues(id, name);
+  //int get hashCode => hashValues(id, name, ratePerHour);
 
   @override
   bool operator ==(other) {
     if (identical(this, other)) return true;
     if (runtimeType != other.runtimeType) return false;
     final Job otherJob = other;
-    return id == otherJob.id &&
-        name == otherJob.name &&
-        ratePerHour == otherJob.ratePerHour;
+    return id == otherJob.id && name == otherJob.name;
+        //name == otherJob.name &&
+        //ratePerHour == otherJob.ratePerHour;
   }
 
   @override
-  String toString() => 'id: $id, name: $name, ratePerHour: $ratePerHour';
+  String toString() => 'id: $id, name: $name';
+  //String toString() => 'id: $id, name: $name, ratePerHour: $ratePerHour';
 }

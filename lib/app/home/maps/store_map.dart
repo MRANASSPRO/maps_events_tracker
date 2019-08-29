@@ -2,13 +2,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 //import 'package:time_tracker_flutter_course/app/home/maps/poly_drawer.dart';
 //import 'package:permission/permission.dart';
 
 // Hue used by the Google Map Markers to match the theme
-const _pinkHue = 20.0;
 //const _pinkHue = 210.0;
+const _pinkHue = 20.0;
 Set<Marker> markers;
 
 class StoreMap extends StatelessWidget {
@@ -36,8 +35,7 @@ class StoreMap extends StatelessWidget {
         zoom: 12.0,
       ),
       mapType: defaultMapType,
-      //markers: retrieveEditMarkers(),
-      markers: markers,
+      //markers: markers,
       polylines: Set<Polyline>.of(polylines.values),
       onMapCreated: (mapController) {
         this.mapController.complete(mapController);
@@ -64,21 +62,6 @@ class StoreMap extends StatelessWidget {
     ))
         .toSet();
 
-    /*markers = documents
-        .map((document) => Marker(
-      markerId: MarkerId(document['placeId'] as String),
-      //onDragEnd:  (LatLng position) {_onMarkerDragEnd(MarkerId(document['placeId'] as String), position);},
-      icon: BitmapDescriptor.defaultMarkerWithHue(_pinkHue),
-      position: LatLng(
-        document['location'].latitude as double,
-        document['location'].longitude as double,
-      ),
-      infoWindow: InfoWindow(
-        title: document['name'] as String,
-        snippet: document['address'] as String,
-      ),
-    ))
-        .toSet();*/
   }
 
 /*void _onMarkerDragEnd(MarkerId markerId, LatLng newPosition) async {

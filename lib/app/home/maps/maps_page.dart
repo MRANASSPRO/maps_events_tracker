@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:time_tracker_flutter_course/app/home/maps/maps_page1.dart';
-
-/*import 'package:time_tracker_flutter_course/widgets/car_pickup.dart';
-import 'package:time_tracker_flutter_course/widgets/ride_picker.dart';*/
+import 'package:time_tracker_flutter_course/app/home/maps/maps_page01.dart';
+//import 'package:time_tracker_flutter_course/widgets/car_pickup.dart';
+//import 'package:time_tracker_flutter_course/widgets/ride_picker.dart';
 
 class MapsPage extends StatefulWidget {
   @override
@@ -10,26 +9,10 @@ class MapsPage extends StatefulWidget {
 }
 
 class _MapsPageState extends State<MapsPage> {
-  /*var _scaffoldKey = GlobalKey<ScaffoldState>();
-  var _tripDistance = 0;
-
-  Map<MarkerId, Marker> _markers = <MarkerId, Marker>{};
-  Map<PolylineId, Polyline> _polylines = <PolylineId, Polyline>{};
-  var i = 1;
-
-  LatLng fromLatLng, toLatLng;
-  LatLng from, to;
-
-  List<LatLng> polylineCoordinates = [];
-  PolylineId selectedPolyline;
-
-  //GoogleMapController _mapController;*/
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const MapsPage01(title: 'Map View'),
+      body: const MapsPage01(title: 'Section Fnideq-Tetouan'),
       //body: const MapsPage01(),
     );
   }
@@ -38,8 +21,8 @@ class _MapsPageState extends State<MapsPage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Ice Creams FTW',
-      home: const MapsPage01(title: 'Ice Cream Stores'),
+      title: '',
+      home: const MapsPage01(title: ''),
       theme: ThemeData(
         primarySwatch: Colors.pink,
         scaffoldBackgroundColor: Colors.pink[50],

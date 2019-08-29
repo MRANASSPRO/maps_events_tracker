@@ -39,8 +39,8 @@ class EntryListItem extends StatelessWidget {
     final endTime = TimeOfDay.fromDateTime(entry.end).format(context);
     final durationFormatted = Format.hours(entry.durationInHours);
 
-    final pay = job.ratePerHour * entry.durationInHours;
-    final payFormatted = Format.currency(pay);
+    //final pay = job.ratePerHour * entry.durationInHours;
+    //final payFormatted = Format.currency(pay);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,13 +49,20 @@ class EntryListItem extends StatelessWidget {
           Text(dayOfWeek, style: TextStyle(fontSize: 18.0, color: Colors.grey)),
           SizedBox(width: 15.0),
           Text(startDate, style: TextStyle(fontSize: 18.0)),
-          if (job.ratePerHour > 0.0) ...<Widget>[
+          if (job.id != null) ...<Widget>[
+            Expanded(child: Container()),
+            /*Text(
+              payFormatted,
+              style: TextStyle(fontSize: 16.0, color: Colors.green[700]),
+            ),*/
+          ],
+          /*if (job.ratePerHour > 0.0) ...<Widget>[
             Expanded(child: Container()),
             Text(
               payFormatted,
               style: TextStyle(fontSize: 16.0, color: Colors.green[700]),
             ),
-          ],
+          ],*/
         ]),
         Row(children: <Widget>[
           Text('$startTime - $endTime', style: TextStyle(fontSize: 16.0)),

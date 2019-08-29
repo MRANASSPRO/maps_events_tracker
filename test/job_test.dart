@@ -12,7 +12,8 @@ void main() {
         'name': 'Blogging',
         'ratePerHour': 10,
       }, 'abc');
-      expect(job, Job(name: 'Blogging', ratePerHour: 10, id: 'abc'));
+      expect(job, Job(name: 'Blogging', id: 'abc'));
+      //expect(job, Job(name: 'Blogging', ratePerHour: 10, id: 'abc'));
     });
 
     test('missing name', () {
@@ -25,7 +26,8 @@ void main() {
 
   group('toMap', () {
     test('valid name, ratePerHour', () {
-      final job = Job(name: 'Blogging', ratePerHour: 10, id: 'abc');
+      final job = Job(name: 'Blogging', id: 'abc');
+      //final job = Job(name: 'Blogging', ratePerHour: 10, id: 'abc');
       expect(job.toMap(), {
         'name': 'Blogging',
         'ratePerHour': 10,

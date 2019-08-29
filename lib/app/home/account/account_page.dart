@@ -35,7 +35,7 @@ class AccountPage extends StatelessWidget {
     final user = Provider.of<User>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Account'),
+        title: Text('Compte'),
         actions: <Widget>[
           FlatButton(
             child: Text(
@@ -49,7 +49,7 @@ class AccountPage extends StatelessWidget {
           ),
         ],
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(130),
+          preferredSize: Size.fromHeight(150),
           child: _buildUserInfo(user),
         ),
       ),
@@ -66,7 +66,7 @@ class AccountPage extends StatelessWidget {
           radius: 50,
         ),
         SizedBox(height: 8),
-        if (user.displayName != null)
+        if(user.displayName != null)
           Text(
             user.displayName,
             style: TextStyle(color: Colors.white),
