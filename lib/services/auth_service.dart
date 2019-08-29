@@ -9,12 +9,15 @@ class User {
     this.email,
     this.photoUrl,
     this.displayName,
+    this.isEmailVerified,
   });
 
   final String uid;
   final String email;
   final String photoUrl;
   final String displayName;
+  final bool isEmailVerified;
+
 }
 
 abstract class AuthService {

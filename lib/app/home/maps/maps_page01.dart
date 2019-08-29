@@ -10,7 +10,7 @@ import 'package:time_tracker_flutter_course/services/place_service.dart';
 import 'package:time_tracker_flutter_course/resources/car_pickup.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
-import 'package:time_tracker_flutter_course/model/myPKs_jobs.dart' as pks;
+//import 'package:time_tracker_flutter_course/model/myPKs_jobs.dart' as pks;
 import 'package:dio/dio.dart';
 
 const initialPosition = LatLng(35.828406, -5.362848);
@@ -30,9 +30,8 @@ class MapsPage01 extends StatefulWidget {
 
 class MapsPage01State extends State<MapsPage01> {
   Firestore firestore = Firestore.instance;
+  //final Firestore _database = Firestore.instance;
   Geoflutterfire geo = Geoflutterfire();
-
-  //Stream<QuerySnapshot> _streamRoutePoints;
   Stream<QuerySnapshot> _streamPK_Points;
   //Stream<QuerySnapshot> _streamJobs;
   Map<PolylineId, Polyline> _polylines = <PolylineId, Polyline>{};
@@ -40,6 +39,7 @@ class MapsPage01State extends State<MapsPage01> {
   final MapType _maptype = MapType.normal;
   var _tripDistance = 0;
   Dio dio = new Dio();
+  StoreMap storeMap;
   var i = 1;
 
   @override
@@ -47,12 +47,9 @@ class MapsPage01State extends State<MapsPage01> {
     //markers.clear();
     onPlaceSelected();
     super.initState();
+    //storeMap.getCreateMarkers();
     _streamPK_Points = Firestore.instance.collection('PK_Points').orderBy('name').snapshots();
-    //_streamRoutePoints = Firestore.instance.collection('adm_pks').orderBy('name').snapshots();
     //_streamJobs = Firestore.instance.collection('entries').orderBy('id').snapshots();
-    //getKMPoints();
-    //backupData();
-    //getPKDistance();
   }
 
   @override
@@ -64,7 +61,7 @@ class MapsPage01State extends State<MapsPage01> {
         title: Text(widget.title),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        //stream: _streamRoutePoints,
+        //stream: _streamJobs,
         stream: _streamPK_Points,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
@@ -81,7 +78,6 @@ class MapsPage01State extends State<MapsPage01> {
                 mapController: _mapController,
                 polylines: _polylines,
                 defaultMapType: _maptype,
-                //markers: _markers,
               ),
               StoreCarousel(
                 mapController: _mapController,
@@ -101,7 +97,7 @@ class MapsPage01State extends State<MapsPage01> {
     );
   }
 
-  Future<void> getPKDistance() async {
+  Future<void> getKM_Distance() async {
     const double originLatitude = 35.8283417,
         originLongitude = -5.3628792,
         destLatitude = 35.5997531,
@@ -123,8 +119,9 @@ class MapsPage01State extends State<MapsPage01> {
     print(distanceResponse);
   }
 
+
   //Future<Set<Marker>> getPKPoints() async{
-  Future<void> getKMPoints() async {
+  /*Future<void> Parse_Save_KMs() async {
     final pointsSaved = await pks.loadData();
     setState(() {
       //markers.clear();
@@ -156,9 +153,9 @@ class MapsPage01State extends State<MapsPage01> {
       }
     });
     //return markers;
-  }
+  }*/
 
-  void backupData() async {
+  /*void backupData() async {
     if (firestore.collection('backup_PKs') == null) {
       print('Backup Data');
       firestore
@@ -178,13 +175,12 @@ class MapsPage01State extends State<MapsPage01> {
                 }));
       });
     }
-  }
+  }*/
 
   void onPlaceSelected() {
     _checkDrawPolyline();
     //PolylineId polyId = PolylineId(i.toString());
     //_checkDrawPolyline(polyId);
-
     //var mkId = fromAddress ? "from_address" : "to_address";
     //_addMarker(mkId, place);
     //_moveCamera();

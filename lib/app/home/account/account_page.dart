@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracker_flutter_course/common_widgets/avatar.dart';
 import 'package:time_tracker_flutter_course/common_widgets/platform_alert_dialog.dart';
-//import 'package:time_tracker_flutter_course/services/auth.dart';
 import 'package:time_tracker_flutter_course/services/auth_service.dart';
+//import 'package:time_tracker_flutter_course/services/auth.dart';
 
 class AccountPage extends StatelessWidget {
 
@@ -58,19 +58,17 @@ class AccountPage extends StatelessWidget {
 
   Widget _buildUserInfo(User user) {
     final photoUrl = user.photoUrl ?? 'https://robohash.org/${user.uid}';
-    //print(user.displayName);
     return Column(
       children: <Widget>[
         Avatar(
           photoUrl: photoUrl,
           radius: 50,
         ),
-        SizedBox(height: 8),
-        if(user.displayName != null)
-          Text(
-            user.displayName,
-            style: TextStyle(color: Colors.white),
-          ),
+        SizedBox(height: 20),
+        Text(
+          user.email,
+          style: TextStyle(color: Colors.white),
+        ),
         SizedBox(height: 8),
       ],
     );
