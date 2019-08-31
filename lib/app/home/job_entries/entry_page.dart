@@ -7,14 +7,18 @@ import 'package:time_tracker_flutter_course/app/home/models/entry.dart';
 import 'package:time_tracker_flutter_course/app/home/models/job.dart';
 import 'package:time_tracker_flutter_course/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:time_tracker_flutter_course/services/database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:time_tracker_flutter_course/model/myPKs_jobs.dart' as pks;
 
 class EntryPage extends StatefulWidget {
   const EntryPage({@required this.database, @required this.job, this.entry});
+
   final Job job;
   final Entry entry;
   final Database database;
 
-  static Future<void> show({BuildContext context, Database database, Job job, Entry entry}) async {
+  static Future<void> show(
+      {BuildContext context, Database database, Job job, Entry entry}) async {
     await Navigator.of(context, rootNavigator: true).push(
       MaterialPageRoute(
         builder: (context) =>
@@ -29,11 +33,16 @@ class EntryPage extends StatefulWidget {
 }
 
 class _EntryPageState extends State<EntryPage> {
+  List PKsList;
+  List<DropdownMenuItem<pks.Pk>> items;
+  final _streamJobs =
+      Firestore.instance.collection('entries').orderBy('id').snapshots();
   DateTime _startDate;
   TimeOfDay _startTime;
   DateTime _endDate;
   TimeOfDay _endTime;
-  String _comment;
+
+  //String _comment;
 
   @override
   void initState() {
@@ -46,7 +55,7 @@ class _EntryPageState extends State<EntryPage> {
     _endDate = DateTime(end.year, end.month, end.day);
     _endTime = TimeOfDay.fromDateTime(end);
 
-    _comment = widget.entry?.comment ?? '';
+    //_comment = widget.entry?.comment ?? '';
   }
 
   Entry _entryFromState() {
@@ -60,7 +69,7 @@ class _EntryPageState extends State<EntryPage> {
       jobId: widget.job.id,
       start: start,
       end: end,
-      comment: _comment,
+      //comment: _comment,
     );
   }
 
@@ -86,7 +95,7 @@ class _EntryPageState extends State<EntryPage> {
         actions: <Widget>[
           FlatButton(
             child: Text(
-              widget.entry != null ? 'Update' : 'Create',
+              widget.entry != null ? 'Modifier' : 'Ajouter',
               style: TextStyle(fontSize: 18.0, color: Colors.white),
             ),
             onPressed: () => _setEntryAndDismiss(context),
@@ -105,7 +114,7 @@ class _EntryPageState extends State<EntryPage> {
               SizedBox(height: 8.0),
               _buildDuration(),
               SizedBox(height: 8.0),
-              _buildComment(),
+              //_buildComment(),
             ],
           ),
         ),
@@ -115,7 +124,7 @@ class _EntryPageState extends State<EntryPage> {
 
   Widget _buildStartDate() {
     return DateTimePicker(
-      labelText: 'Start',
+      labelText: 'Début',
       selectedDate: _startDate,
       selectedTime: _startTime,
       onSelectedDate: (date) => setState(() => _startDate = date),
@@ -125,7 +134,7 @@ class _EntryPageState extends State<EntryPage> {
 
   Widget _buildEndDate() {
     return DateTimePicker(
-      labelText: 'End',
+      labelText: 'Fin',
       selectedDate: _endDate,
       selectedTime: _endTime,
       onSelectedDate: (date) => setState(() => _endDate = date),
@@ -140,7 +149,7 @@ class _EntryPageState extends State<EntryPage> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         Text(
-          'Duration: $durationFormatted',
+          'Durée: $durationFormatted',
           style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
@@ -149,7 +158,32 @@ class _EntryPageState extends State<EntryPage> {
     );
   }
 
-  Widget _buildComment() {
+  Widget _build_PK_Dropdow() {
+    return StreamBuilder<QuerySnapshot>(
+        stream: _streamJobs,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+          return DropdownButton(
+            items: PKsList,
+            onChanged: my_PKs(),
+          );
+        });
+  }
+
+  dynamic my_PKs() {}
+
+  Future<List> PKs_To_Dropdown() async {
+    final pointsSaved = await pks.loadData();
+    for (final pk in pointsSaved.pks) {
+      print(pk.name);
+      PKsList.add(pk);
+    }
+    return PKsList;
+  }
+
+/*Widget _buildComment() {
     return TextField(
       keyboardType: TextInputType.text,
       maxLength: 50,
@@ -162,5 +196,5 @@ class _EntryPageState extends State<EntryPage> {
       maxLines: null,
       onChanged: (comment) => _comment = comment,
     );
-  }
+  }*/
 }

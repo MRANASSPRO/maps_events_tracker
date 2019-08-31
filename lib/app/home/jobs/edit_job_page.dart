@@ -62,8 +62,8 @@ class _EditJobPageState extends State<EditJobPage> {
         }
         if (allNames.contains(_name)) {
           PlatformAlertDialog(
-            title: 'Name already used',
-            content: 'Please choose a different job name',
+            title: 'Activité Deja Existe!',
+            content: 'Veuillez saisir un nom différent pour l´activité',
             defaultActionText: 'OK',
           ).show(context);
         } else {
@@ -87,7 +87,7 @@ class _EditJobPageState extends State<EditJobPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 2.0,
-        title: Text(widget.job == null ? 'New Job' : 'Edit Job'),
+        title: Text(widget.job == null ? 'Ajouter Travail' : 'Modifier Travail'),
         actions: <Widget>[
           FlatButton(
             child: Text(
@@ -130,12 +130,12 @@ class _EditJobPageState extends State<EditJobPage> {
   List<Widget> _buildFormChildren() {
     return [
       TextFormField(
-        decoration: InputDecoration(labelText: 'Job name'),
+        decoration: InputDecoration(labelText: 'Nom d´Activité'),
         initialValue: _name,
-        validator: (value) => value.isNotEmpty ? null : 'Name can\'t be empty',
+        validator: (value) => value.isNotEmpty ? null : 'Nom Invalide!',
         onSaved: (value) => _name = value,
       ),
-      TextFormField(
+      /*TextFormField(
         decoration: InputDecoration(labelText: 'Rate per hour'),
         initialValue: _ratePerHour != null ? '$_ratePerHour' : null,
         keyboardType: TextInputType.numberWithOptions(
@@ -143,7 +143,7 @@ class _EditJobPageState extends State<EditJobPage> {
           decimal: false,
         ),
         onSaved: (value) => _ratePerHour = int.tryParse(value) ?? 0,
-      ),
+      ),*/
     ];
   }
 }

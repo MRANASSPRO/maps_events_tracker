@@ -10,14 +10,14 @@ import 'package:time_tracker_flutter_course/services/place_service.dart';
 import 'package:time_tracker_flutter_course/resources/car_pickup.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
-//import 'package:time_tracker_flutter_course/model/myPKs_jobs.dart' as pks;
 import 'package:dio/dio.dart';
+//import 'package:time_tracker_flutter_course/model/myPKs_jobs.dart' as pks;
+
 
 const initialPosition = LatLng(35.828406, -5.362848);
 
 class MapsPage01 extends StatefulWidget {
   const MapsPage01({@required this.title});
-
   //const MapsPage01();
 
   final String title;
@@ -97,7 +97,7 @@ class MapsPage01State extends State<MapsPage01> {
     );
   }
 
-  Future<void> getKM_Distance() async {
+  Future<void> calculate_KM_distance() async {
     const double originLatitude = 35.8283417,
         originLongitude = -5.3628792,
         destLatitude = 35.5997531,
@@ -120,8 +120,8 @@ class MapsPage01State extends State<MapsPage01> {
   }
 
 
-  //Future<Set<Marker>> getPKPoints() async{
-  /*Future<void> Parse_Save_KMs() async {
+  //Future<Set<Marker>> parse_Save_KMs() async{
+  /*Future<void> parse_Save_KMs() async {
     final pointsSaved = await pks.loadData();
     setState(() {
       //markers.clear();

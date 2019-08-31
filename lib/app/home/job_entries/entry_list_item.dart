@@ -49,14 +49,14 @@ class EntryListItem extends StatelessWidget {
           Text(dayOfWeek, style: TextStyle(fontSize: 18.0, color: Colors.grey)),
           SizedBox(width: 15.0),
           Text(startDate, style: TextStyle(fontSize: 18.0)),
-          if (job.id != null) ...<Widget>[
+          /*if (job.id != null) ...<Widget>[
             Expanded(child: Container()),
-            /*Text(
+            Text(
               payFormatted,
               style: TextStyle(fontSize: 16.0, color: Colors.green[700]),
-            ),*/
+            ),
           ],
-          /*if (job.ratePerHour > 0.0) ...<Widget>[
+          if (job.ratePerHour > 0.0) ...<Widget>[
             Expanded(child: Container()),
             Text(
               payFormatted,
@@ -69,13 +69,13 @@ class EntryListItem extends StatelessWidget {
           Expanded(child: Container()),
           Text(durationFormatted, style: TextStyle(fontSize: 16.0)),
         ]),
-        if (entry.comment.isNotEmpty)
+        /*if (entry.comment.isNotEmpty)
           Text(
             entry.comment,
             style: TextStyle(fontSize: 12.0),
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
-          ),
+          ),*/
       ],
     );
   }

@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart';
-//import 'package:time_tracker_flutter_course/app/sign_in/email_sign_in_page.dart';
 import 'package:time_tracker_flutter_course/app/sign_in/sign_in_manager.dart';
-//import 'package:time_tracker_flutter_course/services/auth.dart';
 import 'package:time_tracker_flutter_course/app/sign_in/firebase/firebase_sign_in_page.dart';
 import 'package:time_tracker_flutter_course/constants/strings.dart';
 import 'package:time_tracker_flutter_course/services/auth_service.dart';
+//import 'package:time_tracker_flutter_course/app/sign_in/email_sign_in_page.dart';
+//import 'package:time_tracker_flutter_course/services/auth.dart';
 
 class SignInPageBuilder extends StatelessWidget {
   // P<ValueNotifier>
@@ -82,7 +82,22 @@ class SignInPage extends StatelessWidget {
     );
   }
 
+  /*Widget _showLogo() {
+    return new Hero(
+      tag: 'hero',
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+        child: CircleAvatar(
+          backgroundColor: Colors.transparent,
+          radius: 48.0,
+          child: Image.asset('assets/ADM.png'),
+        ),
+      ),
+    );
+  }*/
+
   Widget _buildHeader() {
+    //_showLogo();
     if (isLoading) {
       return Center(
         child: CircularProgressIndicator(),

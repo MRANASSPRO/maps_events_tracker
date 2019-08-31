@@ -7,7 +7,6 @@ typedef ItemWidgetBuilder<T> = Widget Function(BuildContext context, T item);
 class ListItemsBuilder<T> extends StatelessWidget {
   const ListItemsBuilder({
     Key key,
-    //@required this.snapshot,
     @required this.snapshot,
     @required this.itemBuilder,
   }) : super(key: key);
@@ -36,7 +35,7 @@ class ListItemsBuilder<T> extends StatelessWidget {
   Widget _buildList(List<T> items) {
     return ListView.separated(
       itemCount: items.length + 2,
-      separatorBuilder: (context, index) => Divider(height: 0.5),
+      separatorBuilder: (context, index) => Divider(height: 2.5),
       itemBuilder: (context, index) {
         if (index == 0 || index == items.length + 1) {
           return Container();

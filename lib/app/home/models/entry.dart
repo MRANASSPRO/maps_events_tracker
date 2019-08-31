@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class Entry {
   Entry({
@@ -6,17 +7,23 @@ class Entry {
     @required this.jobId,
     @required this.start,
     @required this.end,
-    this.comment,
+    @required this.PK,
+    //this.comment,
   });
 
   String id;
   String jobId;
   DateTime start;
   DateTime end;
-  String comment;
+  DropdownMenuItem PK;
+
+  //String comment;
 
   double get durationInHours =>
-      end.difference(start).inMinutes.toDouble() / 60.0;
+      end
+          .difference(start)
+          .inMinutes
+          .toDouble() / 60.0;
 
   factory Entry.fromMap(Map<dynamic, dynamic> value, String id) {
     final int startMilliseconds = value['start'];
@@ -26,7 +33,8 @@ class Entry {
       jobId: value['jobId'],
       start: DateTime.fromMillisecondsSinceEpoch(startMilliseconds),
       end: DateTime.fromMillisecondsSinceEpoch(endMilliseconds),
-      comment: value['comment'],
+      //PK:,
+      //comment: value['comment'],
     );
   }
 
@@ -35,7 +43,7 @@ class Entry {
       'jobId': jobId,
       'start': start.millisecondsSinceEpoch,
       'end': end.millisecondsSinceEpoch,
-      'comment': comment,
+      //'comment': comment,
     };
   }
 }

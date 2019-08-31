@@ -89,7 +89,7 @@ class JobEntriesPage extends StatelessWidget {
               job: job,
               onDismissed: () => _deleteEntry(context, entry),
               onTap: () => EntryPage.show(
-                context: context,
+                 context: context,
                 database: database,
                 job: job,
                 entry: entry,

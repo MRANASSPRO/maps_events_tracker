@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:time_tracker_flutter_course/app/home/entries/daily_jobs_details.dart';
+import 'package:time_tracker_flutter_course/app/home/models/daily_jobs_details.dart';
 import 'package:time_tracker_flutter_course/app/home/entries/entries_list_tile.dart';
 import 'package:time_tracker_flutter_course/app/home/entries/entry_job.dart';
 import 'package:time_tracker_flutter_course/app/home/job_entries/format.dart';
@@ -49,7 +49,7 @@ class EntriesBloc {
 
     return <EntriesListTileModel>[
       EntriesListTileModel(
-        leadingText: 'All Entries',
+        leadingText: 'Travaux',
         //middleText: Format.currency(totalPay),
         trailingText: Format.hours(totalDuration),
       ),

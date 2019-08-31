@@ -15,21 +15,22 @@ class FirebaseSignInPageBuilder extends StatelessWidget {
     return ChangeNotifierProvider<FirebaseSignInModel>(
       builder: (_) => FirebaseSignInModel(auth: auth),
       child: Consumer<FirebaseSignInModel>(
-        builder: (_, FirebaseSignInModel model, __) => EmailPasswordSignInPage._(model: model),
+        builder: (_, FirebaseSignInModel model, __) =>
+            FirebaseSignInPage._(model: model),
       ),
     );
   }
 }
 
-class EmailPasswordSignInPage extends StatefulWidget {
-  const EmailPasswordSignInPage._({Key key, @required this.model}) : super(key: key);
+class FirebaseSignInPage extends StatefulWidget {
+  const FirebaseSignInPage._({Key key, @required this.model}) : super(key: key);
   final FirebaseSignInModel model;
 
   @override
-  _EmailPasswordSignInPageState createState() => _EmailPasswordSignInPageState();
+  _FirebaseSignInPageState createState() => _FirebaseSignInPageState();
 }
 
-class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
+class _FirebaseSignInPageState extends State<FirebaseSignInPage> {
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
   final TextEditingController _emailController = TextEditingController();
@@ -46,7 +47,8 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
     super.dispose();
   }
 
-  void _showSignInError(FirebaseSignInModel model, PlatformException exception) {
+  void _showSignInError(
+      FirebaseSignInModel model, PlatformException exception) {
     PlatformExceptionAlertDialog(
       title: model.errorAlertTitle,
       exception: exception,
@@ -79,7 +81,8 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
   }
 
   void _emailEditingComplete() {
-    final FocusNode newFocus = model.canSubmitEmail ? _passwordFocusNode : _emailFocusNode;
+    final FocusNode newFocus =
+        model.canSubmitEmail ? _passwordFocusNode : _emailFocusNode;
     FocusScope.of(context).requestFocus(newFocus);
   }
 
@@ -120,7 +123,8 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
         errorText: model.passwordErrorText,
         enabled: !model.isLoading,
       ),
-      obscureText: true,
+      //obscureText: true,
+      obscureText: false,
       autocorrect: false,
       textInputAction: TextInputAction.done,
       keyboardAppearance: Brightness.light,
@@ -129,13 +133,30 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
     );
   }
 
+  Widget _showLogo() {
+    return new Hero(
+      tag: 'hero',
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+        child: CircleAvatar(
+          backgroundColor: Colors.transparent,
+          radius: 48.0,
+          child: Image.asset('assets/ADM.png'),
+        ),
+      ),
+    );
+  }
+
   Widget _buildContent() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         SizedBox(height: 8.0),
+        _showLogo(),
+        SizedBox(height: 8.0),
         _buildEmailField(),
-        if (model.formType != FirebaseSignInFormType.forgotPassword) ...<Widget>[
+        if (model.formType !=
+            FirebaseSignInFormType.forgotPassword) ...<Widget>[
           SizedBox(height: 8.0),
           _buildPasswordField(),
         ],
@@ -148,12 +169,16 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
         SizedBox(height: 8.0),
         FlatButton(
           child: Text(model.secondaryButtonText),
-          onPressed: model.isLoading ? null : () => _updateFormType(model.secondaryActionFormType),
+          onPressed: model.isLoading
+              ? null
+              : () => _updateFormType(model.secondaryActionFormType),
         ),
         if (model.formType == FirebaseSignInFormType.signIn)
           FlatButton(
             child: Text(Strings.forgotPasswordQuestion),
-            onPressed: model.isLoading ? null : () => _updateFormType(FirebaseSignInFormType.forgotPassword),
+            onPressed: model.isLoading
+                ? null
+                : () => _updateFormType(FirebaseSignInFormType.forgotPassword),
           ),
       ],
     );

@@ -1,9 +1,9 @@
-//import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 import 'package:time_tracker_flutter_course/services/auth_service.dart';
+
 //import 'package:time_tracker_flutter_course/services/auth.dart';
+//import 'dart:async';
 
 class SignInManager {
   SignInManager({@required this.auth, @required this.isLoading});
@@ -11,7 +11,7 @@ class SignInManager {
   final AuthService auth;
   final ValueNotifier<bool> isLoading;
 
-  /*Future<User> _signIn(Future<User> Function() signInMethod) async {
+/*Future<User> _signIn(Future<User> Function() signInMethod) async {
     try {
       isLoading.value = true;
       return await signInMethod();
@@ -21,7 +21,6 @@ class SignInManager {
       isLoading.value = false;
     }
   }*/
-}
 
 /*class SignInManager {
   SignInManager({@required this.auth, @required this.isLoading});
@@ -39,3 +38,5 @@ class SignInManager {
     }
   }
 }*/
+
+}

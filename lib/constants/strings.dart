@@ -8,7 +8,7 @@ class Strings {
   static const String logoutAreYouSure = 'Are you sure that you want to logout?';
 
   // Sign In Page
-  static const String welcome = 'Welcome to ADM Supervison';
+  static const String welcome = 'Welcome to ADM Tracker';
   static const String signIn = 'Sign in';
   static const String signInWithEmailPassword = 'Sign in with email and password';
   static const String signInWithEmailLink = 'Sign in with email link';
