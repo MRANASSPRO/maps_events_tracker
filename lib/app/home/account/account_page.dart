@@ -20,10 +20,10 @@ class AccountPage extends StatelessWidget {
 
   Future<void> _confirmSignOut(BuildContext context) async {
     final didRequestSignOut = await PlatformAlertDialog(
-      title: 'Logout',
-      content: 'Are you sure that you want to logout?',
-      cancelActionText: 'Cancel',
-      defaultActionText: 'Logout',
+      title: 'Déconnexion',
+      content: 'Confirmer la déconnexion?',
+      cancelActionText: 'Annuler',
+      defaultActionText: 'Oui',
     ).show(context);
     if (didRequestSignOut == true) {
       _signOut(context);
@@ -39,7 +39,7 @@ class AccountPage extends StatelessWidget {
         actions: <Widget>[
           FlatButton(
             child: Text(
-              'Logout',
+              'Déconnexion',
               style: TextStyle(
                 fontSize: 18.0,
                 color: Colors.white,

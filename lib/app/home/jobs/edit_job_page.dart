@@ -91,7 +91,7 @@ class _EditJobPageState extends State<EditJobPage> {
         actions: <Widget>[
           FlatButton(
             child: Text(
-              'Save',
+              'Enregistrer',
               style: TextStyle(fontSize: 18, color: Colors.white),
             ),
             onPressed: _submit,

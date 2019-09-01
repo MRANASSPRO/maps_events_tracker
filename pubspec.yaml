@@ -33,6 +33,8 @@ dependencies:
   http: ^0.12.0+2
   json_serializable: ^3.2.2
   dio: ^2.1.16
+  auto_size_text: ^2.1.0
+  shared_preferences: ^0.5.3+4
   #provider: ^3.0.0+1
   #permission: ^0.1.2
   #json_serializable: ^3.1.0
@@ -64,6 +66,7 @@ flutter:
   #  - images/a_dot_ham.jpeg
   assets:
    - assets/ADM.png
+   - assets/ADM_logo.png
    - assets/ic_lock.png
    - assets/ic_red_car.png
    - assets/150px-Autoroute.png

@@ -124,7 +124,7 @@ class _FirebaseSignInPageState extends State<FirebaseSignInPage> {
         enabled: !model.isLoading,
       ),
       //obscureText: true,
-      obscureText: false,
+      obscureText: true,
       autocorrect: false,
       textInputAction: TextInputAction.done,
       keyboardAppearance: Brightness.light,
@@ -137,11 +137,12 @@ class _FirebaseSignInPageState extends State<FirebaseSignInPage> {
     return new Hero(
       tag: 'hero',
       child: Padding(
-        padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
         child: CircleAvatar(
           backgroundColor: Colors.transparent,
-          radius: 48.0,
-          child: Image.asset('assets/ADM.png'),
+          radius: 68.0,
+            child: Image.asset('assets/ADM_logo.png'),
+          //child: Image.asset('assets/ADM.png'),
         ),
       ),
     );

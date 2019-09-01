@@ -50,6 +50,7 @@ class EntriesBloc {
     return <EntriesListTileModel>[
       EntriesListTileModel(
         leadingText: 'Travaux',
+        middleText: 'Durée Totale',
         //middleText: Format.currency(totalPay),
         trailingText: Format.hours(totalDuration),
       ),

@@ -13,6 +13,7 @@ import 'package:time_tracker_flutter_course/app/home/models/entry.dart';
 import 'package:time_tracker_flutter_course/app/home/models/job.dart';
 import 'package:time_tracker_flutter_course/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:time_tracker_flutter_course/services/database.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class JobEntriesPage extends StatelessWidget {
   const JobEntriesPage({@required this.database, @required this.job});
@@ -50,17 +51,17 @@ class JobEntriesPage extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               elevation: 2.0,
-              title: Text(jobName),
+              title: AutoSizeText('Ajouter Travail pour $jobName'),
               centerTitle: true,
               actions: <Widget>[
-                IconButton(
+                /*IconButton(
                   icon: Icon(Icons.edit, color: Colors.white),
                   onPressed: () => EditJobPage.show(
                     context,
                     database: database,
                     job: job,
                   ),
-                ),
+                ),*/
                 IconButton(
                   icon: Icon(Icons.add, color: Colors.white),
                   onPressed: () => EntryPage.show(

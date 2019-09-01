@@ -26,7 +26,7 @@ class ListItemsBuilder<T> extends StatelessWidget {
     } else if (snapshot.hasError) {
       return EmptyContent(
         title: 'Something went wrong',
-        message: 'Can\'t load items right now',
+        //message: 'Can\'t load items right now',
       );
     }
     return Center(child: CircularProgressIndicator());

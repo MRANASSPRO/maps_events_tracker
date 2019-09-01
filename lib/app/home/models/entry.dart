@@ -15,15 +15,11 @@ class Entry {
   String jobId;
   DateTime start;
   DateTime end;
-  DropdownMenuItem PK;
-
+  String PK;
   //String comment;
 
   double get durationInHours =>
-      end
-          .difference(start)
-          .inMinutes
-          .toDouble() / 60.0;
+      end.difference(start).inMinutes.toDouble() / 60.0;
 
   factory Entry.fromMap(Map<dynamic, dynamic> value, String id) {
     final int startMilliseconds = value['start'];
@@ -33,7 +29,7 @@ class Entry {
       jobId: value['jobId'],
       start: DateTime.fromMillisecondsSinceEpoch(startMilliseconds),
       end: DateTime.fromMillisecondsSinceEpoch(endMilliseconds),
-      //PK:,
+      PK: value['PK'],
       //comment: value['comment'],
     );
   }
@@ -43,6 +39,7 @@ class Entry {
       'jobId': jobId,
       'start': start.millisecondsSinceEpoch,
       'end': end.millisecondsSinceEpoch,
+      'PK': PK,
       //'comment': comment,
     };
   }

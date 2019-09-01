@@ -20,6 +20,8 @@ abstract class Database {
   Future<void> deleteEntry(Entry entry);
 
   Stream<List<Entry>> entriesStream({Job job});
+
+  Stream<List<Entry>> PKs_Stream({Entry entry});
 }
 
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
@@ -84,9 +86,18 @@ class FirestoreDatabase implements Database {
         //path: APIPath.entries(uid),
         path: APIPath.entries(),
         queryBuilder: job != null
-            ? (query) => query.where('jobId', isEqualTo: job.id)
-            : null,
+            ? (query) => query.where('jobId', isEqualTo: job.id) : null,
         builder: (data, documentID) => Entry.fromMap(data, documentID),
         sort: (lhs, rhs) => rhs.start.compareTo(lhs.start),
+      );
+
+  @override
+  Stream<List<Entry>> PKs_Stream({Entry entry}) =>
+      _service.collectionStream<Entry>(
+        //path: APIPath.entries(uid),
+        path: APIPath.entries(),
+        queryBuilder: entry != null ? (query) => query.where('PK', isEqualTo: entry.PK) : null,
+        builder: (data, documentID) => Entry.fromMap(data, documentID),
+        //sort: (lhs, rhs) => rhs.start.compareTo(lhs.start),
       );
 }

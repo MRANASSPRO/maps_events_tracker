@@ -43,7 +43,7 @@ class JobsPage extends StatelessWidget {
         title: Text('Activités'),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.add, color: Colors.white),
+            icon: Icon(Icons.add_comment, color: Colors.white),
             onPressed: () => EditJobPage.show(context,
               database: Provider.of<Database>(context),
             ),
