@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart';
@@ -28,7 +27,7 @@ class SignInPageBuilder extends StatelessWidget {
                     SignInPage._(
                       isLoading: isLoading.value,
                       manager: manager,
-                      title: 'Welcome Page',
+                      title: Strings.welcomePageTitle,
                     ),
               ),
             ),
@@ -74,30 +73,13 @@ class SignInPage extends StatelessWidget {
         elevation: 2.0,
         title: Text(title),
       ),
-      // Hide developer menu while loading in progress.
-      // This is so that it's not possible to switch auth service while a request is in progress
       //drawer: isLoading ? null : DeveloperMenu(),
       backgroundColor: Colors.grey[200],
       body: _buildSignIn(context),
     );
   }
 
-  /*Widget _showLogo() {
-    return new Hero(
-      tag: 'hero',
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
-        child: CircleAvatar(
-          backgroundColor: Colors.transparent,
-          radius: 48.0,
-          child: Image.asset('assets/ADM.png'),
-        ),
-      ),
-    );
-  }*/
-
   Widget _buildHeader() {
-    //_showLogo();
     if (isLoading) {
       return Center(
         child: CircularProgressIndicator(),
@@ -129,7 +111,7 @@ class SignInPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30.0)),
               color: Colors.lightBlue,
               child: Text(
-                'Get Started',
+                Strings.welcomeButton,
                 style: TextStyle(fontSize: 20.0, color: Colors.white),
               ),
               onPressed:

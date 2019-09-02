@@ -120,7 +120,7 @@ class FirebaseSignInModel with EmailAndPasswordValidators, ChangeNotifier {
   String get title {
     return <FirebaseSignInFormType, String>{
       FirebaseSignInFormType.register: Strings.register,
-      FirebaseSignInFormType.signIn: Strings.signIn,
+      FirebaseSignInFormType.signIn: Strings.signInPageTitle,
       FirebaseSignInFormType.forgotPassword: Strings.forgotPassword,
     }[formType];
   }

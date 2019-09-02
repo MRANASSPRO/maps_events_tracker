@@ -140,9 +140,9 @@ class _FirebaseSignInPageState extends State<FirebaseSignInPage> {
         padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
         child: CircleAvatar(
           backgroundColor: Colors.transparent,
-          radius: 68.0,
-            child: Image.asset('assets/ADM_logo.png'),
-          //child: Image.asset('assets/ADM.png'),
+          radius: 48.0,
+          child: Image.asset('assets/ADM_logo.png'),
+          //child: Image.asset('assets/autoroute.svg'),
         ),
       ),
     );

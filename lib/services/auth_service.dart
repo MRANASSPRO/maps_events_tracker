@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:meta/meta.dart';
 
 @immutable
