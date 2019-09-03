@@ -16,14 +16,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   //Stream<QuerySnapshot> _streamJobs;
-  Firestore firestore = Firestore.instance;
+  //Firestore firestore = Firestore.instance;
   TabItem _currentTab = TabItem.jobs;
 
   @override
   void initState() {
     super.initState();
-    //StoreMap().getCreateMarkers();
-    //getJobs();
+    jsonToFirestore();
   }
 
   final Map<TabItem, GlobalKey<NavigatorState>> navigatorKeys = {
@@ -66,29 +65,40 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  /*Future<void> parseSaveJobs() async {
+  Future<void> jsonToFirestore() async {
     final pointsSaved = await pks.loadData();
     setState(() {
-      //markers.clear();
-      for (final job in pointsSaved.jobs) {
-        if (firestore.collection('activites').snapshots().length.toString() !=
-            '0') {
-          //if (firestore.collection('activites').getDocuments() != null) {
-          print('Saving JSON Jobs to Firebase');
-          firestore
-              .collection('activites')
-              .add({'name': job.name, 'id': job.id});
-        }
-        //final marker = Marker(
-        /*Marker(
-          markerId: MarkerId(pk.name),
-          position: LatLng(pk.location.lat, pk.location.lng),
-          infoWindow: InfoWindow(
-            title: pk.name,
-            snippet: pk.address,
+      for (final pk in pointsSaved.pks) {
+        //if (firestore.collection('PK_Points') == null){
+        print('JSON to Firestore');
+        firestore.collection('pks_travaux').add({
+          'address': pk.address,
+          'location': GeoPoint(
+            pk.location.lat,
+            pk.location.lng,
           ),
-        );*/
-        //markers.add(marker);
+          'name': pk.name,
+          'id': pk.id,
+          'jobType': pk.jobType,
+          'debut': pk.debut,
+          'fin': pk.fin,
+        });
+        //}
+      }
+    });
+  }
+
+/*Future<void> jsonToFirestore() async {
+    final pointsSaved = await pks.loadData();
+    setState(() {
+      for (final job in pointsSaved.jobs) {
+        //if (firestore.collection('activites').snapshots().length.toString() != '0') {
+        //if (firestore.collection('activites').getDocuments() != null) {
+        print('JSON to firestore');
+        firestore
+            .collection('pks_travaux')
+            .add({'name': job.name, 'id': job.id});
+        //}
       }
     });
   }*/

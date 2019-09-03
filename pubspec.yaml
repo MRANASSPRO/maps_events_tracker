@@ -70,7 +70,7 @@ flutter:
     - assets/autoroute.svg
     - assets/20px-Peaje.png
     - assets/150px-Autoroute.png
-    - assets/JSON/pks_jobs.json
+    #- assets/JSON/pks_jobs.json
     - assets/JSON/pks_travaux.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

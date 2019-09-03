@@ -61,7 +61,7 @@ class EntriesBloc {
           EntriesListTileModel(
             isHeader: true,
             leadingText: Format.date(dailyJobsDetails.date),
-            timeText: Format.startTime(jobDetails.start) + '--' + Format.startTime(jobDetails.end),
+            timeText: Format.startEndTime(jobDetails.start) + '--' + Format.startEndTime(jobDetails.end),
             trailingText: Format.dayOfWeek(dailyJobsDetails.date),
             //middleText: Format.hours(dailyJobsDetails.duration),
           ),

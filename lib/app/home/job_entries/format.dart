@@ -17,9 +17,10 @@ class Format {
     return DateFormat.E().format(date);
   }
 
-  static String startTime(DateTime date) {
+  static String startEndTime(DateTime date) {
     return DateFormat.Hm().format(date);
   }
+
 
   static String currency(double pay) {
     if (pay != 0.0) {
