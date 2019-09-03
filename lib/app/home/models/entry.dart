@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class Entry {
   Entry({
+    this.name,
     @required this.id,
     @required this.jobId,
     @required this.start,
@@ -11,11 +12,13 @@ class Entry {
     //this.comment,
   });
 
+  String name;
   String id;
   String jobId;
   DateTime start;
   DateTime end;
   String PK;
+
   //String comment;
 
   double get durationInHours =>

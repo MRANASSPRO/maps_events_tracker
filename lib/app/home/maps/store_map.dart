@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 // Hue used by the Google Map Markers to match the theme
 //const _pinkHue = 210.0;
+BitmapDescriptor myIcon;
 const _pinkHue = 20.0;
 Set<Marker> markers;
 
@@ -47,23 +48,31 @@ class StoreMap extends StatelessWidget {
   }
 
   void getCreateMarkers() {
+    BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(20, 20)), 'assets/20px-Peaje.png')
+        .then((onValue) {
+      myIcon = onValue;
+    });
     markers = documents
-        .map((document) => Marker(
-              markerId: MarkerId(document['id'] as String),
-              //markerId: MarkerId(document['placeId'] as String),
-              //onDragEnd:  (LatLng position) {_onMarkerDragEnd(MarkerId(document['placeId'] as String), position);},
-              icon: BitmapDescriptor.defaultMarkerWithHue(_pinkHue),
-              //icon: BitmapDescriptor.fromAssetImage(configuration, assetName),
-              position: LatLng(
-                document['location'].latitude as double,
-                document['location'].longitude as double,
-              ),
-              infoWindow: InfoWindow(
-                title: document['name'] as String,
-                snippet: document['address'] as String,
-              ),
-            ))
-        .toSet();
+        .map((document) =>
+        Marker(
+          markerId: MarkerId(document['id'] as String),
+          //markerId: MarkerId(document['placeId'] as String),
+          //onDragEnd:  (LatLng position) {_onMarkerDragEnd(MarkerId(document['placeId'] as String), position);},
+          //icon: BitmapDescriptor.defaultMarkerWithHue(_pinkHue),
+          icon: myIcon,
+          position: LatLng(
+          document['location'].latitude as double,
+          document['location'].longitude as double,
+        ),
+      infoWindow: InfoWindow(
+        title: document['name'] as String,
+        snippet: document['address'] as String,
+      ),
+    )).
+    toSet
+    (
+    );
   }
 
 /*Widget loadMarkers() {
