@@ -1,4 +1,5 @@
 class APIPath {
+
   static String job(String jobId) => 'activites/$jobId';
   static String jobs() => 'activites';
   static String entry(String entryId) =>'entries/$entryId';

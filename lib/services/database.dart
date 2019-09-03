@@ -1,10 +1,10 @@
 import 'dart:async';
-
 import 'package:meta/meta.dart';
 import 'package:time_tracker_flutter_course/app/home/models/entry.dart';
 import 'package:time_tracker_flutter_course/app/home/models/job.dart';
 import 'package:time_tracker_flutter_course/services/api_path.dart';
 import 'package:time_tracker_flutter_course/services/firestore_service.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class Database {
   Future<void> setJob(Job job);
@@ -28,10 +28,11 @@ String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
 
 class FirestoreDatabase implements Database {
   FirestoreDatabase({@required this.uid}) : assert(uid != null);
-
-  //FirestoreDatabase({@required this.uid}) : assert(uid != null);
   final String uid;
   final _service = FirestoreService.instance;
+
+  //static Entry entry;
+  //final docId = Firestore.instance.collection('backup_PKs').document(entry.PK).documentID;
 
   @override
   Future<void> setJob(Job job) async => await _service.setData(
@@ -86,7 +87,8 @@ class FirestoreDatabase implements Database {
         //path: APIPath.entries(uid),
         path: APIPath.entries(),
         queryBuilder: job != null
-            ? (query) => query.where('jobId', isEqualTo: job.id) : null,
+            ? (query) => query.where('jobId', isEqualTo: job.id)
+            : null,
         builder: (data, documentID) => Entry.fromMap(data, documentID),
         sort: (lhs, rhs) => rhs.start.compareTo(lhs.start),
       );
@@ -96,7 +98,9 @@ class FirestoreDatabase implements Database {
       _service.collectionStream<Entry>(
         //path: APIPath.entries(uid),
         path: APIPath.entries(),
-        queryBuilder: entry != null ? (query) => query.where('PK', isEqualTo: entry.PK) : null,
+        queryBuilder: entry != null
+            ? (query) => query.where('PK', isEqualTo: entry.PK)
+            : null,
         builder: (data, documentID) => Entry.fromMap(data, documentID),
         //sort: (lhs, rhs) => rhs.start.compareTo(lhs.start),
       );

@@ -7,7 +7,7 @@ import 'package:time_tracker_flutter_course/app/home/maps/maps_page.dart';
 import 'package:time_tracker_flutter_course/app/home/tab_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:time_tracker_flutter_course/model/myPKs_jobs.dart' as pks;
-//import 'package:time_tracker_flutter_course/app/home/maps/store_map.dart';
+//import 'package:time_tracker_flutter_course/services/api_path.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,7 +15,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  //_streamJobs = Firestore.instance.collection('activities').orderBy('id').snapshots();
   //Stream<QuerySnapshot> _streamJobs;
   Firestore firestore = Firestore.instance;
   TabItem _currentTab = TabItem.jobs;
@@ -24,7 +23,6 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     //StoreMap().getCreateMarkers();
-    //_streamJobs = Firestore.instance.collection('activities').orderBy('id').snapshots();
     //getJobs();
   }
 

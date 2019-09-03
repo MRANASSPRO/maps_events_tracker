@@ -32,7 +32,7 @@ class MapsPage01State extends State<MapsPage01> {
   //final Firestore _database = Firestore.instance;
   Firestore firestore = Firestore.instance;
   Geoflutterfire geo = Geoflutterfire();
-  Stream<QuerySnapshot> _streamPK_Points;
+  Stream<QuerySnapshot> _streamPKsPoints;
   //Stream<QuerySnapshot> _streamJobs;
   Map<PolylineId, Polyline> _polylines = <PolylineId, Polyline>{};
   final Completer<GoogleMapController> _mapController = Completer();
@@ -46,9 +46,8 @@ class MapsPage01State extends State<MapsPage01> {
     //markers.clear();
     super.initState();
     onPlaceSelected();
-    _streamPK_Points = Firestore.instance.collection('PK_Points').orderBy('name').snapshots();
+    _streamPKsPoints = Firestore.instance.collection('backup_PKs').orderBy('id').snapshots();
     //_streamJobs = Firestore.instance.collection('entries').orderBy('id').snapshots();
-    //storeMap.getCreateMarkers();
   }
 
   @override
@@ -61,7 +60,7 @@ class MapsPage01State extends State<MapsPage01> {
       ),
       body: StreamBuilder<QuerySnapshot>(
         //stream: _streamJobs,
-        stream: _streamPK_Points,
+        stream: _streamPKsPoints,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));

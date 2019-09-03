@@ -8,11 +8,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 // Hue used by the Google Map Markers to match the theme
 //const _pinkHue = 210.0;
-//const _pinkHue = 20.0;
+const _pinkHue = 20.0;
 Set<Marker> markers;
-final _streamJobs = Firestore.instance.collection('entries').orderBy('id').snapshots();
-
-//final ImageConfiguration imageConfiguration = createLocalImageConfiguration(context);
 
 class StoreMap extends StatelessWidget {
   const StoreMap({
@@ -33,8 +30,8 @@ class StoreMap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //markers.clear();
-    //getCreateMarkers();
-    loadMarkers();
+    //loadMarkers();
+    getCreateMarkers();
     return GoogleMap(
       initialCameraPosition: CameraPosition(
         target: initialPosition,
@@ -49,7 +46,27 @@ class StoreMap extends StatelessWidget {
     );
   }
 
-  Widget loadMarkers() {
+  void getCreateMarkers() {
+    markers = documents
+        .map((document) => Marker(
+              markerId: MarkerId(document['id'] as String),
+              //markerId: MarkerId(document['placeId'] as String),
+              //onDragEnd:  (LatLng position) {_onMarkerDragEnd(MarkerId(document['placeId'] as String), position);},
+              icon: BitmapDescriptor.defaultMarkerWithHue(_pinkHue),
+              //icon: BitmapDescriptor.fromAssetImage(configuration, assetName),
+              position: LatLng(
+                document['location'].latitude as double,
+                document['location'].longitude as double,
+              ),
+              infoWindow: InfoWindow(
+                title: document['name'] as String,
+                snippet: document['address'] as String,
+              ),
+            ))
+        .toSet();
+  }
+
+/*Widget loadMarkers() {
     return StreamBuilder<QuerySnapshot>(
         stream: _streamJobs,
         builder: (context, snapshot) {
@@ -63,34 +80,13 @@ class StoreMap extends StatelessWidget {
           return Stack(
             children: [
               Text('Loading Markers'),
-            /*StoreMap(
+            StoreMap(
                 documents: snapshot.data.documents,
                 initialPosition: initialPosition,
-              ),*/
+              ),
             ],
           );
         });
-  }
-
-/*void getCreateMarkers() {
-    markers = documents
-        .map((document) => Marker(
-      markerId: MarkerId(document['id'] as String),
-      //markerId: MarkerId(document['placeId'] as String),
-      //onDragEnd:  (LatLng position) {_onMarkerDragEnd(MarkerId(document['placeId'] as String), position);},
-      icon: BitmapDescriptor.defaultMarkerWithHue(_pinkHue),
-      //icon: BitmapDescriptor.fromAssetImage(configuration, assetName),
-      position: LatLng(
-        document['location'].latitude as double,
-        document['location'].longitude as double,
-      ),
-      infoWindow: InfoWindow(
-        title: document['name'] as String,
-        snippet: document['address'] as String,
-      ),
-    ))
-        .toSet();
-
   }*/
 
 /*void _onMarkerDragEnd(MarkerId markerId, LatLng newPosition) async {

@@ -1,5 +1,4 @@
-import 'dart:async';
-
+//import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,16 +9,13 @@ import 'package:time_tracker_flutter_course/app/home/jobs/list_items_builder.dar
 import 'package:time_tracker_flutter_course/app/home/models/job.dart';
 import 'package:time_tracker_flutter_course/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:time_tracker_flutter_course/model/myPKs_jobs.dart' as pks;
-
+//import 'package:time_tracker_flutter_course/model/myPKs_jobs.dart' as pks;
 //import 'package:flutter/services.dart';
 //import 'package:time_tracker_flutter_course/common_widgets/platform_exception_alert_dialog.dart';
 
-final CollectionReference collectionReference =  Firestore.instance.collection('activities');
+final CollectionReference collectionReference = Firestore.instance.collection('activities');
 final Firestore firestore = Firestore.instance;
-Stream<QuerySnapshot> _stream;
-Stream _streamJobs = firestore.collection('activities').orderBy('id').snapshots();
-
+//Stream<QuerySnapshot> _stream;
 class JobsPage extends StatelessWidget {
   //const JobsPage({@required this.myfunc});
   //final VoidCallback myfunc;
@@ -44,7 +40,8 @@ class JobsPage extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add_comment, color: Colors.white),
-            onPressed: () => EditJobPage.show(context,
+            onPressed: () => EditJobPage.show(
+              context,
               database: Provider.of<Database>(context),
             ),
           ),
@@ -87,7 +84,7 @@ class JobsPage extends StatelessWidget {
     );
   }
 
-  /* Future<void> ParseSaveJobs() async {
+/* Future<void> ParseSaveJobs() async {
     final pointsSaved = await pks.loadData();
     //setState(() {
     //markers.clear();
