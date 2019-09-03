@@ -29,8 +29,8 @@ class MapsPage01 extends StatefulWidget {
 }
 
 class MapsPage01State extends State<MapsPage01> {
-  Firestore firestore = Firestore.instance;
   //final Firestore _database = Firestore.instance;
+  Firestore firestore = Firestore.instance;
   Geoflutterfire geo = Geoflutterfire();
   Stream<QuerySnapshot> _streamPK_Points;
   //Stream<QuerySnapshot> _streamJobs;
@@ -39,17 +39,16 @@ class MapsPage01State extends State<MapsPage01> {
   final MapType _maptype = MapType.normal;
   var _tripDistance = 0;
   Dio dio = new Dio();
-  StoreMap storeMap;
   var i = 1;
 
   @override
   void initState() {
     //markers.clear();
-    onPlaceSelected();
     super.initState();
-    //storeMap.getCreateMarkers();
+    onPlaceSelected();
     _streamPK_Points = Firestore.instance.collection('PK_Points').orderBy('name').snapshots();
     //_streamJobs = Firestore.instance.collection('entries').orderBy('id').snapshots();
+    //storeMap.getCreateMarkers();
   }
 
   @override
@@ -97,7 +96,7 @@ class MapsPage01State extends State<MapsPage01> {
     );
   }
 
-  Future<void> calculate_KM_distance() async {
+  Future<void> calculateKMsDistance() async {
     const double originLatitude = 35.8283417,
         originLongitude = -5.3628792,
         destLatitude = 35.5997531,

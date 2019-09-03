@@ -1,5 +1,3 @@
-
-
 import 'package:intl/intl.dart';
 
 class Format {
@@ -17,6 +15,10 @@ class Format {
 
   static String dayOfWeek(DateTime date) {
     return DateFormat.E().format(date);
+  }
+
+  static String startTime(DateTime date) {
+    return DateFormat.Hm().format(date);
   }
 
   static String currency(double pay) {

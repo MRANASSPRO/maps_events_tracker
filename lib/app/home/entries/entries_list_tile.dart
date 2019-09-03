@@ -6,12 +6,16 @@ class EntriesListTileModel {
     @required this.leadingText,
     @required this.trailingText,
     this.middleText,
+    this.timeText,
     this.isHeader = false,
+    this.isBold = false,
   });
   final String leadingText;
   final String trailingText;
   final String middleText;
+  final String timeText;
   final bool isHeader;
+  final bool isBold;
 }
 
 class EntriesListTile extends StatelessWidget {
@@ -20,18 +24,25 @@ class EntriesListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const fontSize = 16.0;
+    const fontSize = 18.0;
+    //const fontWeight = FontWeight.w600;
     return Container(
       color: model.isHeader ? Colors.indigo[200] : null,
       padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: Row(
         children: <Widget>[
-          Text(model.leadingText, style: TextStyle(fontSize: fontSize)),
+          Text(model.leadingText, style: TextStyle(fontSize: fontSize, fontWeight: model.isBold ? FontWeight.w600 : null)),
           Expanded(child: Container()),
           if (model.middleText != null)
             Text(
               model.middleText,
-              style: TextStyle(color: Colors.green[700], fontSize: fontSize),
+              style: TextStyle(color: Colors.red[900], fontSize: 16.0),
+              textAlign: TextAlign.right,
+            ),
+          if (model.timeText != null)
+            Text(
+              model.timeText,
+              style: TextStyle(color: Colors.green[800], fontSize: 16.0),
               textAlign: TextAlign.right,
             ),
           SizedBox(

@@ -21,8 +21,8 @@ class _CarPickupState extends State<CarPickup> {
           children: <Widget>[
             Positioned(
               bottom: 50,
-              right: 150,
-              left: 150,
+              right: 50,
+              left: 50,
               height: 40,
               child: Container(
                 color: Colors.white,

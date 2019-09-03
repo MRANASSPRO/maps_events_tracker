@@ -1,21 +1,33 @@
 import 'package:flutter/foundation.dart';
 import 'package:time_tracker_flutter_course/app/home/entries/entry_job.dart';
+import 'package:time_tracker_flutter_course/app/home/models/entry.dart';
+import 'package:time_tracker_flutter_course/constants/strings.dart';
+import 'package:time_tracker_flutter_course/model/myPKs_jobs.dart';
 
 /// Temporary model class to store the time tracked and pay for a job
+
 class JobDetails {
   JobDetails({
     @required this.name,
     @required this.durationInHours,
+    @required this.PK,
+    @required this.start,
+    @required this.end,
     //@required this.pay,
   });
+
   final String name;
   double durationInHours;
+  String PK;
+  DateTime start = Entry().start;
+  DateTime end = Entry().end;
   //double pay;
 }
 
 /// Groups together all jobs/entries on a given day
 class DailyJobsDetails {
   DailyJobsDetails({@required this.date, @required this.jobsDetails});
+
   final DateTime date;
   final List<JobDetails> jobsDetails;
 
@@ -58,17 +70,20 @@ class DailyJobsDetails {
   static List<JobDetails> _jobsDetails(List<EntryJob> entries) {
     Map<String, JobDetails> jobDuration = {};
     for (var entryJob in entries) {
-      final entry = entryJob.entry;
       //final pay = entry.durationInHours * entryJob.job.ratePerHour;
+      final entry = entryJob.entry;
       if (jobDuration[entry.jobId] == null) {
         jobDuration[entry.jobId] = JobDetails(
-          name: entryJob.job.name,
-          durationInHours: entry.durationInHours,
-          //pay: pay,
-        );
+            name: entryJob.job.name,
+            durationInHours: entry.durationInHours,
+            PK: entry.PK,
+            start: entry.start,
+            end: entry.end
+            //pay: pay,
+            );
       } else {
-        //jobDuration[entry.jobId].pay += pay;
         jobDuration[entry.jobId].durationInHours += entry.durationInHours;
+        //jobDuration[entry.jobId].pay += pay;
       }
     }
     return jobDuration.values.toList();

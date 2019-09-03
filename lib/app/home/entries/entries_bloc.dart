@@ -10,6 +10,7 @@ import 'package:time_tracker_flutter_course/services/database.dart';
 
 class EntriesBloc {
   EntriesBloc({@required this.database});
+
   final Database database;
 
   /// combine List<Job>, List<Entry> into List<EntryJob>
@@ -50,22 +51,27 @@ class EntriesBloc {
     return <EntriesListTileModel>[
       EntriesListTileModel(
         leadingText: 'Travaux',
-        middleText: 'Durée Totale',
-        //middleText: Format.currency(totalPay),
+        //middleText: 'Details',
         trailingText: Format.hours(totalDuration),
+        isBold: true,
+        //middleText: Format.currency(totalPay),
       ),
       for (DailyJobsDetails dailyJobsDetails in allDailyJobsDetails) ...[
-        EntriesListTileModel(
-          isHeader: true,
-          leadingText: Format.date(dailyJobsDetails.date),
-          //middleText: Format.currency(dailyJobsDetails.pay),
-          trailingText: Format.hours(dailyJobsDetails.duration),
-        ),
-        for (JobDetails jobDuration in dailyJobsDetails.jobsDetails)
+        for (JobDetails jobDetails in dailyJobsDetails.jobsDetails)
           EntriesListTileModel(
-            leadingText: jobDuration.name,
+            isHeader: true,
+            leadingText: Format.date(dailyJobsDetails.date),
+            timeText: Format.startTime(jobDetails.start) + '--' + Format.startTime(jobDetails.end),
+            trailingText: Format.dayOfWeek(dailyJobsDetails.date),
+            //middleText: Format.hours(dailyJobsDetails.duration),
+          ),
+        for (JobDetails jobDetails in dailyJobsDetails.jobsDetails)
+          EntriesListTileModel(
+            isBold: true,
+            leadingText: jobDetails.name,
+            middleText: jobDetails.PK,
+            trailingText: Format.hours(jobDetails.durationInHours),
             //middleText: Format.currency(jobDuration.pay),
-            trailingText: Format.hours(jobDuration.durationInHours),
           ),
       ]
     ];

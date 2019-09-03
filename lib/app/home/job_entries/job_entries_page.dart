@@ -51,7 +51,7 @@ class JobEntriesPage extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               elevation: 2.0,
-              title: AutoSizeText('Ajouter Travail pour $jobName'),
+              title: AutoSizeText('Travail pour $jobName'),
               centerTitle: true,
               actions: <Widget>[
                 /*IconButton(
