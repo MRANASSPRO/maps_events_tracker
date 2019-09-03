@@ -9,7 +9,7 @@ class Strings {
       'Are you sure that you want to logout?';
 
   // Sign In Page
-  static const String welcomePageTitle = 'Acceuil';
+  static const String welcomePageTitle = 'Accueil';
   static const String welcome = 'Bienvenue dans ADM Tracker';
   static const String welcomeButton = 'Commencer';
   static const String signIn = 'Connexion';
