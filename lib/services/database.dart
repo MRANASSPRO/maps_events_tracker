@@ -25,6 +25,7 @@ abstract class Database {
 }
 
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
+//Stream<QuerySnapshot> _streamPKsPoints = Firestore.instance.collection('pks_travaux').orderBy('id').snapshots();
 
 class FirestoreDatabase implements Database {
   FirestoreDatabase({@required this.uid}) : assert(uid != null);
@@ -36,7 +37,7 @@ class FirestoreDatabase implements Database {
 
   @override
   Future<void> setJob(Job job) async => await _service.setData(
-        //path: APIPath.job(uid, job.id),
+      //path: APIPath.job(uid, job.id),
         path: APIPath.job(job.id),
         data: job.toMap(),
       );

@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 
 class Entry {
   Entry({
-    this.name,
     @required this.id,
     @required this.jobId,
+    this.jobName,
     @required this.start,
     @required this.end,
     @required this.PK,
     //this.comment,
   });
 
-  String name;
   String id;
   String jobId;
+  String jobName;
   DateTime start;
   DateTime end;
   String PK;

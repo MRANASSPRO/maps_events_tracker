@@ -7,6 +7,7 @@ import 'package:time_tracker_flutter_course/app/home/maps/maps_page.dart';
 import 'package:time_tracker_flutter_course/app/home/tab_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:time_tracker_flutter_course/model/myPKs_jobs.dart' as pks;
+//import 'package:time_tracker_flutter_course/app/home/job_entries/format.dart';
 //import 'package:time_tracker_flutter_course/services/api_path.dart';
 
 class HomePage extends StatefulWidget {
@@ -22,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    jsonToFirestore();
+    //jsonToFirestore();
   }
 
   final Map<TabItem, GlobalKey<NavigatorState>> navigatorKeys = {
@@ -69,21 +70,21 @@ class _HomePageState extends State<HomePage> {
     final pointsSaved = await pks.loadData();
     setState(() {
       for (final pk in pointsSaved.pks) {
-        //if (firestore.collection('PK_Points') == null){
-        print('JSON to Firestore');
-        firestore.collection('pks_travaux').add({
-          'address': pk.address,
-          'location': GeoPoint(
-            pk.location.lat,
-            pk.location.lng,
-          ),
-          'name': pk.name,
-          'id': pk.id,
-          'jobType': pk.jobType,
-          'debut': pk.debut,
-          'fin': pk.fin,
-        });
-        //}
+          print('JSON to Firestore');
+          firestore.collection('pks_travaux').add({
+            'address': pk.address,
+            'location': GeoPoint(
+              pk.location.lat,
+              pk.location.lng,
+            ),
+            'name': pk.name,
+            'id': pk.id,
+            'jobType': pk.jobType,
+            'debut': pk.debut,
+            'fin': pk.fin,
+            //'debut': Format.startEndTime(pk.debut),
+            //'fin': Format.startEndTime(pk.fin),
+          });
       }
     });
   }

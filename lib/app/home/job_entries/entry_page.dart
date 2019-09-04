@@ -9,7 +9,7 @@ import 'package:time_tracker_flutter_course/common_widgets/platform_exception_al
 import 'package:time_tracker_flutter_course/services/database.dart';
 import 'package:time_tracker_flutter_course/model/myPKs_jobs.dart' as pks;
 import 'package:auto_size_text/auto_size_text.dart';
-//import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EntryPage extends StatefulWidget {
   const EntryPage({@required this.database, @required this.job, this.entry});
@@ -34,11 +34,11 @@ class EntryPage extends StatefulWidget {
 }
 
 class _EntryPageState extends State<EntryPage> {
-  //final _streamJobs = Firestore.instance.collection('entries').orderBy('id').snapshots();
+  final Firestore firestore = Firestore.instance;
+  Stream<QuerySnapshot> snapshot =  Firestore.instance.collection('pks_travaux').orderBy('id').snapshots();
   List<String> PKs_list = [];
   List<DropdownMenuItem<pks.Pk>> items;
   DropdownButton<String> PKs_Point;
-
   DateTime _startDate;
   TimeOfDay _startTime;
   DateTime _endDate;
@@ -70,6 +70,7 @@ class _EntryPageState extends State<EntryPage> {
     return Entry(
       id: id,
       jobId: widget.job.id,
+      jobName: widget.job.name,
       start: start,
       end: end,
       PK: _selected_PK,
@@ -95,6 +96,28 @@ class _EntryPageState extends State<EntryPage> {
       //SnackBar(content: new Text(" Travail modifié!"));
       final entry = _entryFromState();
       await widget.database.setEntry(entry);
+      //DocumentReference ref = Firestore.instance.collection('pks_travaux').document('');
+      QuerySnapshot snapshot = await firestore.collection('pks_travaux').where('name', isEqualTo: entry.PK)
+          .getDocuments();
+      //final List<DocumentSnapshot> documents = snapshot.documents;
+      //documents.forEach((data) => print(data));
+      print('My doc Matched: $snapshot');
+      if (snapshot.documents.length != 0) {
+        DocumentSnapshot document = snapshot.documents[(snapshot.documents.length - 1)];
+        var docId = document.documentID;
+        print("My doc ${document.documentID}");
+        if (docId != null) {
+          print(docId);
+          //setState(() {
+          firestore.collection('pks_travaux').document(docId).updateData({
+            "jobType": entry.jobName,
+            "debut": entry.start,
+            "fin": entry.end
+          });
+          print('Document Updated');
+          //});
+        }
+      }
       Navigator.of(context).pop();
     } on PlatformException catch (e) {
       PlatformExceptionAlertDialog(
@@ -103,6 +126,14 @@ class _EntryPageState extends State<EntryPage> {
       ).show(context);
     }
   }
+
+  /*Future<void> addToFirestore() async {
+    StreamBuilder<QuerySnapshot>(
+      stream: snapshot,
+      builder: (context, snapshot) {
+      }
+    );
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -213,7 +244,7 @@ class _EntryPageState extends State<EntryPage> {
     );
   }
 
-  /*Widget _buildDropDown() {
+/*Widget _buildDropDown() {
     return DropdownButton(
         items: PKs_list.map((value) {
           return DropdownMenuItem(
