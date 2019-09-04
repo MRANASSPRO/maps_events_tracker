@@ -6,16 +6,20 @@ import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import 'package:time_tracker_flutter_course/app/home/job_entries/entry_list_item.dart';
 import 'package:time_tracker_flutter_course/app/home/job_entries/entry_page.dart';
-import 'package:time_tracker_flutter_course/app/home/jobs/edit_job_page.dart';
 import 'package:time_tracker_flutter_course/app/home/jobs/list_items_builder.dart';
 import 'package:time_tracker_flutter_course/app/home/models/entry.dart';
 import 'package:time_tracker_flutter_course/app/home/models/job.dart';
 import 'package:time_tracker_flutter_course/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:time_tracker_flutter_course/services/database.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:time_tracker_flutter_course/app/home/jobs/edit_job_page.dart';
+
+final Firestore firestore = Firestore.instance;
 
 class JobEntriesPage extends StatelessWidget {
   const JobEntriesPage({@required this.database, @required this.job});
+
   final Database database;
   final Job job;
 
@@ -32,11 +36,29 @@ class JobEntriesPage extends StatelessWidget {
   Future<void> _deleteEntry(BuildContext context, Entry entry) async {
     try {
       await database.deleteEntry(entry);
+      removeFromFirestore(entry);
     } on PlatformException catch (e) {
       PlatformExceptionAlertDialog(
         title: 'Operation failed',
         exception: e,
       ).show(context);
+    }
+  }
+
+  Future<void> removeFromFirestore(Entry entry) async {
+    QuerySnapshot snap = await firestore
+        .collection('pks_travaux')
+        .where('name', isEqualTo: entry.PK)
+        .getDocuments();
+
+    if (snap.documents.length != 0) {
+      DocumentSnapshot document = snap.documents[(snap.documents.length - 1)];
+      var docId = document.documentID;
+      if (docId != null) {
+        firestore.collection('pks_travaux').document(docId).updateData(
+            {"jobType": '', "debut": '', "fin": ''});
+        print('Document ${document.documentID} Trimmed');
+      }
     }
   }
 
@@ -89,7 +111,7 @@ class JobEntriesPage extends StatelessWidget {
               job: job,
               onDismissed: () => _deleteEntry(context, entry),
               onTap: () => EntryPage.show(
-                 context: context,
+                context: context,
                 database: database,
                 job: job,
                 entry: entry,

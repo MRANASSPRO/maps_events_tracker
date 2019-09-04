@@ -37,7 +37,7 @@ class StoreMap extends StatelessWidget {
     return GoogleMap(
       initialCameraPosition: CameraPosition(
         target: initialPosition,
-        zoom: 12.0,
+        zoom: 11.0,
       ),
       mapType: defaultMapType,
       markers: markers,
@@ -56,7 +56,7 @@ class StoreMap extends StatelessWidget {
     //var docId = document.documentID;
     //documents.forEach((data) => print(data));
     BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(20, 20)), 'assets/20px-Peaje.png')
+            ImageConfiguration(size: Size(20, 20)), 'assets/20px-Peaje.png')
         .then((onValue) {
       myIcon = onValue;
     });
@@ -76,7 +76,8 @@ class StoreMap extends StatelessWidget {
         markers = snap.documents
             .map((doc) => Marker(
                   markerId: MarkerId(doc['id'] as String),
-                  icon: myIcon,
+                  //icon: myIcon,
+                  icon: BitmapDescriptor.defaultMarkerWithHue(_pinkHue),
                   position: LatLng(
                     doc['location'].latitude as double,
                     doc['location'].longitude as double,

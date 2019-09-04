@@ -35,7 +35,6 @@ class EntryPage extends StatefulWidget {
 
 class _EntryPageState extends State<EntryPage> {
   final Firestore firestore = Firestore.instance;
-  Stream<QuerySnapshot> snapshot = Firestore.instance.collection('pks_travaux').orderBy('id').snapshots();
   List<String> PKs_list = [];
   List<DropdownMenuItem<pks.Pk>> items;
   DropdownButton<String> PKs_Point;
@@ -97,7 +96,6 @@ class _EntryPageState extends State<EntryPage> {
       final entry = _entryFromState();
       await widget.database.setEntry(entry);
       addToFirestore(entry);
-      //removeFromFirestore(entry);
       Navigator.of(context).pop();
     } on PlatformException catch (e) {
       PlatformExceptionAlertDialog(
@@ -107,23 +105,69 @@ class _EntryPageState extends State<EntryPage> {
     }
   }
 
-  Future<void> addToFirestore(Entry entry) async {
-    //DocumentReference ref = Firestore.instance.collection('pks_travaux').document('');
+  Future<void> removeFromFirestore(Entry entry, String oldPK) async {
     QuerySnapshot snap = await firestore
         .collection('pks_travaux')
-        .where('name', isEqualTo: entry.PK)
+        .where('name', isEqualTo: oldPK)
         .getDocuments();
-    //final List<DocumentSnapshot> documents = snapshot.documents;
-    //documents.forEach((data) => print(data));
+
     if (snap.documents.length != 0) {
       DocumentSnapshot document = snap.documents[(snap.documents.length - 1)];
       var docId = document.documentID;
       if (docId != null) {
-        //setState(() {
-        firestore.collection('pks_travaux').document(docId).updateData(
-            {"jobType": entry.jobName, "debut": entry.start, "fin": entry.end});
-        print('Document ${document.documentID} Updated');
-        //});
+        firestore
+            .collection('pks_travaux')
+            .document(docId)
+            .updateData({"jobType": '', "debut": '', "fin": ''});
+        print('Document ${document.documentID} Trimmed');
+      }
+    }
+  }
+
+  Future<void> addToFirestore(Entry entry) async {
+    //DocumentReference ref = Firestore.instance.collection('pks_travaux').document('');
+    //final List<DocumentSnapshot> documents = snapshot.documents;
+    //documents.forEach((data) => print(data));
+
+    if (widget.entry != null) {
+      var oldPk = widget.entry.PK;
+      print('oldPk was $oldPk');
+      removeFromFirestore(entry, oldPk);
+      QuerySnapshot snap = await firestore
+          .collection('pks_travaux')
+          .where('name', isEqualTo: entry.PK)
+          .getDocuments();
+
+      if (snap.documents.length != 0) {
+        DocumentSnapshot document = snap.documents[(snap.documents.length - 1)];
+        var docId = document.documentID;
+        if (docId != null) {
+          firestore.collection('pks_travaux').document(docId).updateData({
+            "jobType": entry.jobName,
+            "debut": entry.start,
+            "fin": entry.end
+          });
+          print('Document ${document.documentID} Modified');
+        }
+      }
+    } else {
+      QuerySnapshot snap = await firestore
+          .collection('pks_travaux')
+          .where('jobType', isEqualTo: '')
+          .where('name', isEqualTo: entry.PK)
+          .getDocuments();
+
+      if (snap.documents.length != 0) {
+        DocumentSnapshot document = snap.documents[(snap.documents.length - 1)];
+        var docId = document.documentID;
+        if (docId != null) {
+          firestore.collection('pks_travaux').document(docId).updateData({
+            "jobType": entry.jobName,
+            "debut": entry.start,
+            "fin": entry.end,
+          });
+          print('Document ${document.documentID} Updated');
+        }
       }
     }
   }
