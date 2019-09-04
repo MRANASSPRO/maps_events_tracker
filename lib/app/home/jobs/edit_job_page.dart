@@ -32,7 +32,7 @@ class _EditJobPageState extends State<EditJobPage> {
   final _formKey = GlobalKey<FormState>();
 
   String _name;
-  int _ratePerHour;
+  //int _ratePerHour;
 
   @override
   void initState() {

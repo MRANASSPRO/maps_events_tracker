@@ -9,9 +9,9 @@ import 'package:time_tracker_flutter_course/app/home/jobs/list_items_builder.dar
 import 'package:time_tracker_flutter_course/app/home/models/job.dart';
 import 'package:time_tracker_flutter_course/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:time_tracker_flutter_course/common_widgets/platform_exception_alert_dialog.dart';
 //import 'package:time_tracker_flutter_course/model/myPKs_jobs.dart' as pks;
 //import 'package:flutter/services.dart';
-//import 'package:time_tracker_flutter_course/common_widgets/platform_exception_alert_dialog.dart';
 
 final CollectionReference collectionReference = Firestore.instance.collection('activities');
 final Firestore firestore = Firestore.instance;

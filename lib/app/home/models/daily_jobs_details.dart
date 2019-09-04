@@ -1,11 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:time_tracker_flutter_course/app/home/entries/entry_job.dart';
 import 'package:time_tracker_flutter_course/app/home/models/entry.dart';
-import 'package:time_tracker_flutter_course/constants/strings.dart';
-import 'package:time_tracker_flutter_course/model/myPKs_jobs.dart';
+//import 'package:time_tracker_flutter_course/constants/strings.dart';
 
 /// Temporary model class to store the time tracked and pay for a job
-
 class JobDetails {
   JobDetails({
     @required this.name,
@@ -21,7 +19,7 @@ class JobDetails {
   String PK;
   DateTime start = Entry().start;
   DateTime end = Entry().end;
-  //double pay;
+//double pay;
 }
 
 /// Groups together all jobs/entries on a given day

@@ -7,6 +7,7 @@ class EntriesListTileModel {
     @required this.trailingText,
     this.middleText,
     this.timeText,
+    this.headerMiddleText,
     this.isHeader = false,
     this.isBold = false,
   });
@@ -14,6 +15,7 @@ class EntriesListTileModel {
   final String trailingText;
   final String middleText;
   final String timeText;
+  final String headerMiddleText;
   final bool isHeader;
   final bool isBold;
 }
@@ -24,32 +26,41 @@ class EntriesListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const fontSize = 18.0;
-    //const fontWeight = FontWeight.w600;
+    const bigFontSize = 18.0;
+    const smallFontSize = 15.0;
+    const mediumFontSize = 16.5;
+
+    const boldFontWeight = FontWeight.w600;
     return Container(
       color: model.isHeader ? Colors.indigo[200] : null,
-      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
       child: Row(
         children: <Widget>[
-          Text(model.leadingText, style: TextStyle(fontSize: fontSize, fontWeight: model.isBold ? FontWeight.w600 : null)),
+          Text(model.leadingText, style: TextStyle(fontSize: bigFontSize, fontWeight: model.isBold ? boldFontWeight: null)),
           Expanded(child: Container()),
           if (model.middleText != null)
             Text(
               model.middleText,
-              style: TextStyle(color: Colors.red[900], fontSize: 16.0),
+              style: TextStyle(color: Colors.red[900], fontSize: mediumFontSize),
               textAlign: TextAlign.right,
             ),
           if (model.timeText != null)
             Text(
               model.timeText,
-              style: TextStyle(color: Colors.green[800], fontSize: 16.0),
+              style: TextStyle(color: Colors.teal[800], fontSize: smallFontSize),
+              textAlign: TextAlign.right,
+            ),
+          if (model.headerMiddleText != null)
+            Text(
+              model.headerMiddleText,
+              style: TextStyle(fontSize: bigFontSize, fontWeight: boldFontWeight),
               textAlign: TextAlign.right,
             ),
           SizedBox(
             width: 60.0,
             child: Text(
               model.trailingText,
-              style: TextStyle(fontSize: fontSize),
+              style: TextStyle(fontSize: bigFontSize, fontWeight: model.isBold ? boldFontWeight: null),
               textAlign: TextAlign.right,
             ),
           ),

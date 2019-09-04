@@ -13,11 +13,11 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:dio/dio.dart';
 import 'package:time_tracker_flutter_course/model/myPKs_jobs.dart' as pks;
 
-
 const initialPosition = LatLng(35.828406, -5.362848);
 
 class MapsPage01 extends StatefulWidget {
   const MapsPage01({@required this.title});
+
   //const MapsPage01();
 
   final String title;
@@ -33,6 +33,7 @@ class MapsPage01State extends State<MapsPage01> {
   Firestore firestore = Firestore.instance;
   Geoflutterfire geo = Geoflutterfire();
   Stream<QuerySnapshot> _streamPKsPoints;
+
   //Stream<QuerySnapshot> _streamJobs;
   Map<PolylineId, Polyline> _polylines = <PolylineId, Polyline>{};
   final Completer<GoogleMapController> _mapController = Completer();
@@ -46,7 +47,8 @@ class MapsPage01State extends State<MapsPage01> {
     //markers.clear();
     super.initState();
     onPlaceSelected();
-    _streamPKsPoints = Firestore.instance.collection('pks_travaux').orderBy('id').snapshots();
+    _streamPKsPoints =
+        Firestore.instance.collection('pks_travaux').orderBy('id').snapshots();
     //_streamPKsPoints = Firestore.instance.collection('backup_PKs').orderBy('id').snapshots();
     //_streamJobs = Firestore.instance.collection('entries').orderBy('id').snapshots();
   }
@@ -86,7 +88,7 @@ class MapsPage01State extends State<MapsPage01> {
                 left: 10,
                 right: 10,
                 bottom: 10,
-                height: 110,
+                height: 90,
                 child: CarPickup(_tripDistance),
               )
             ],
@@ -118,8 +120,7 @@ class MapsPage01State extends State<MapsPage01> {
     print(distanceResponse);
   }
 
-
-  //Future<Set<Marker>> parse_Save_KMs() async{
+  //Future<Set<Marker>>  parseSavePKs()  async{
   Future<void> parseSavePKs() async {
     final pointsSaved = await pks.loadData();
     setState(() {

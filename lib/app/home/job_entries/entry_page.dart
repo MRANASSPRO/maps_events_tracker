@@ -35,7 +35,7 @@ class EntryPage extends StatefulWidget {
 
 class _EntryPageState extends State<EntryPage> {
   final Firestore firestore = Firestore.instance;
-  Stream<QuerySnapshot> snapshot =  Firestore.instance.collection('pks_travaux').orderBy('id').snapshots();
+  Stream<QuerySnapshot> snapshot = Firestore.instance.collection('pks_travaux').orderBy('id').snapshots();
   List<String> PKs_list = [];
   List<DropdownMenuItem<pks.Pk>> items;
   DropdownButton<String> PKs_Point;
@@ -96,28 +96,8 @@ class _EntryPageState extends State<EntryPage> {
       //SnackBar(content: new Text(" Travail modifié!"));
       final entry = _entryFromState();
       await widget.database.setEntry(entry);
-      //DocumentReference ref = Firestore.instance.collection('pks_travaux').document('');
-      QuerySnapshot snapshot = await firestore.collection('pks_travaux').where('name', isEqualTo: entry.PK)
-          .getDocuments();
-      //final List<DocumentSnapshot> documents = snapshot.documents;
-      //documents.forEach((data) => print(data));
-      print('My doc Matched: $snapshot');
-      if (snapshot.documents.length != 0) {
-        DocumentSnapshot document = snapshot.documents[(snapshot.documents.length - 1)];
-        var docId = document.documentID;
-        print("My doc ${document.documentID}");
-        if (docId != null) {
-          print(docId);
-          //setState(() {
-          firestore.collection('pks_travaux').document(docId).updateData({
-            "jobType": entry.jobName,
-            "debut": entry.start,
-            "fin": entry.end
-          });
-          print('Document Updated');
-          //});
-        }
-      }
+      addToFirestore(entry);
+      //removeFromFirestore(entry);
       Navigator.of(context).pop();
     } on PlatformException catch (e) {
       PlatformExceptionAlertDialog(
@@ -127,13 +107,26 @@ class _EntryPageState extends State<EntryPage> {
     }
   }
 
-  /*Future<void> addToFirestore() async {
-    StreamBuilder<QuerySnapshot>(
-      stream: snapshot,
-      builder: (context, snapshot) {
+  Future<void> addToFirestore(Entry entry) async {
+    //DocumentReference ref = Firestore.instance.collection('pks_travaux').document('');
+    QuerySnapshot snap = await firestore
+        .collection('pks_travaux')
+        .where('name', isEqualTo: entry.PK)
+        .getDocuments();
+    //final List<DocumentSnapshot> documents = snapshot.documents;
+    //documents.forEach((data) => print(data));
+    if (snap.documents.length != 0) {
+      DocumentSnapshot document = snap.documents[(snap.documents.length - 1)];
+      var docId = document.documentID;
+      if (docId != null) {
+        //setState(() {
+        firestore.collection('pks_travaux').document(docId).updateData(
+            {"jobType": entry.jobName, "debut": entry.start, "fin": entry.end});
+        print('Document ${document.documentID} Updated');
+        //});
       }
-    );
-  }*/
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

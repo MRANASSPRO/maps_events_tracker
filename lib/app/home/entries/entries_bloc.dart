@@ -50,19 +50,22 @@ class EntriesBloc {
 
     return <EntriesListTileModel>[
       EntriesListTileModel(
-        leadingText: 'Travaux',
-        //middleText: 'Details',
-        trailingText: Format.hours(totalDuration),
-        isBold: true,
-        //middleText: Format.currency(totalPay),
-      ),
+          leadingText: 'Travaux',
+          trailingText: Format.hours(totalDuration),
+          headerMiddleText: 'Total: ',
+          isBold: true
+          //middleText: 'Heures Totales:',
+          //middleText: Format.currency(totalPay),
+          ),
       for (DailyJobsDetails dailyJobsDetails in allDailyJobsDetails) ...[
         for (JobDetails jobDetails in dailyJobsDetails.jobsDetails)
           EntriesListTileModel(
             isHeader: true,
             leadingText: Format.date(dailyJobsDetails.date),
-            timeText: Format.startEndTime(jobDetails.start) + '--' + Format.startEndTime(jobDetails.end),
+            timeText: Format.startEndTime(jobDetails.start) + ' -- ' +
+                Format.startEndTime(jobDetails.end),
             trailingText: Format.dayOfWeek(dailyJobsDetails.date),
+            isBold: false,
             //middleText: Format.hours(dailyJobsDetails.duration),
           ),
         for (JobDetails jobDetails in dailyJobsDetails.jobsDetails)

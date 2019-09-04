@@ -18,7 +18,6 @@ class Entry {
   DateTime start;
   DateTime end;
   String PK;
-
   //String comment;
 
   double get durationInHours =>

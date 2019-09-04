@@ -21,7 +21,7 @@ class StoreCarouselList extends StatelessWidget {
       itemCount: documents.length,
       itemBuilder: (context, index) {
         return SizedBox(
-          width: 340,
+          width: 240,
           child: Padding(
             padding: const EdgeInsets.only(left: 8),
             child: Card(

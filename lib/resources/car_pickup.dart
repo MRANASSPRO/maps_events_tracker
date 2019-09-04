@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:time_tracker_flutter_course/resources/blocs/car_pickup_bloc.dart';
 
@@ -30,7 +31,7 @@ class _CarPickupState extends State<CarPickup> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text('Distance (' + _getDistanceInfo() + ') ', style: TextStyle(fontSize: 18, color: Colors.black),
+                    AutoSizeText('Distance (' + _getDistanceInfo() + ') ', style: TextStyle(fontSize: 17, color: Colors.black),
                     ),
                   ],
                 ),

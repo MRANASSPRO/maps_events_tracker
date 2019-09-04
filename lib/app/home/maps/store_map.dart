@@ -11,6 +11,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 BitmapDescriptor myIcon;
 const _pinkHue = 20.0;
 Set<Marker> markers;
+final Firestore firestore = Firestore.instance;
 
 class StoreMap extends StatelessWidget {
   const StoreMap({
@@ -32,7 +33,7 @@ class StoreMap extends StatelessWidget {
   Widget build(BuildContext context) {
     //markers.clear();
     //loadMarkers();
-    getCreateMarkers();
+    getFromFirestore();
     return GoogleMap(
       initialCameraPosition: CameraPosition(
         target: initialPosition,
@@ -47,56 +48,50 @@ class StoreMap extends StatelessWidget {
     );
   }
 
-  void getCreateMarkers() {
+  Future<void> getFromFirestore() async {
+    //DocumentReference ref = Firestore.instance.collection('pks_travaux').document('');
+    //final List<DocumentSnapshot> documents = snapshot.documents;
+    //DocumentSnapshot document = snap.documents[(snap.documents.length - 1)];
+    //print('Number of docs: ${snap.documents.length}');
+    //var docId = document.documentID;
+    //documents.forEach((data) => print(data));
     BitmapDescriptor.fromAssetImage(
         ImageConfiguration(size: Size(20, 20)), 'assets/20px-Peaje.png')
         .then((onValue) {
       myIcon = onValue;
     });
-    markers = documents
-        .map((document) =>
-        Marker(
-          markerId: MarkerId(document['id'] as String),
-          //markerId: MarkerId(document['placeId'] as String),
-          //onDragEnd:  (LatLng position) {_onMarkerDragEnd(MarkerId(document['placeId'] as String), position);},
-          //icon: BitmapDescriptor.defaultMarkerWithHue(_pinkHue),
-          icon: myIcon,
-          position: LatLng(
-          document['location'].latitude as double,
-          document['location'].longitude as double,
-        ),
-      infoWindow: InfoWindow(
-        title: document['name'] as String,
-        snippet: document['address'] as String,
-      ),
-    )).
-    toSet
-    (
-    );
-  }
 
-/*Widget loadMarkers() {
-    return StreamBuilder<QuerySnapshot>(
-        stream: _streamJobs,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          }
-          if (!snapshot.hasData) {
-            return Center(child: const Text('Loading...'));
-          }
-          print('Loading Markers');
-          return Stack(
-            children: [
-              Text('Loading Markers'),
-            StoreMap(
-                documents: snapshot.data.documents,
-                initialPosition: initialPosition,
-              ),
-            ],
-          );
-        });
-  }*/
+    QuerySnapshot snap = await firestore
+        .collection('pks_travaux')
+        .where('jobType', isGreaterThan: '')
+        .getDocuments();
+
+    List<String> listOfDocs = [];
+    if (snap.documents.length != 0) {
+      int j = 1;
+      for (final doc in snap.documents) {
+        listOfDocs.add(doc.documentID);
+        print('Marker $j');
+        j++;
+        markers = snap.documents
+            .map((doc) => Marker(
+                  markerId: MarkerId(doc['id'] as String),
+                  icon: myIcon,
+                  position: LatLng(
+                    doc['location'].latitude as double,
+                    doc['location'].longitude as double,
+                  ),
+                  infoWindow: InfoWindow(
+                    title: doc['name'] as String,
+                    snippet: doc['jobType'] as String,
+                  ),
+                  //onDragEnd:  (LatLng position) {_onMarkerDragEnd(MarkerId(document['placeId'] as String), position);},
+                ))
+            .toSet();
+      }
+      print('all documents $listOfDocs');
+    }
+  }
 
 /*void _onMarkerDragEnd(MarkerId markerId, LatLng newPosition) async {
     final Marker tappedMarker = markers[markerId];

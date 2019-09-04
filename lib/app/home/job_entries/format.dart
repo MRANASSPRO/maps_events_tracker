@@ -1,7 +1,6 @@
 import 'package:intl/intl.dart';
 
 class Format {
-
   static String hours(double hours) {
     final hoursNotNegative = hours < 0.0 ? 0.0 : hours;
     final formatter = NumberFormat.decimalPattern();
@@ -10,17 +9,16 @@ class Format {
   }
 
   static String date(DateTime date) {
-    return DateFormat.yMMMd().format(date);
+    return DateFormat.yMMMd('fr_CH').format(date);
   }
 
   static String dayOfWeek(DateTime date) {
-    return DateFormat.E().format(date);
+    return DateFormat.E('fr_CH').format(date);
   }
 
   static String startEndTime(DateTime date) {
-    return DateFormat.Hm().format(date);
+    return DateFormat.Hm('fr_CH').format(date);
   }
-
 
   static String currency(double pay) {
     if (pay != 0.0) {

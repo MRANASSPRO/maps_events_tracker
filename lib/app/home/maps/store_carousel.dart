@@ -19,9 +19,9 @@ class StoreCarousel extends StatelessWidget {
     return Align(
       alignment: Alignment.topLeft,
       child: Padding(
-        padding: const EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.only(bottom: 10),
         child: SizedBox(
-          height: 90,
+          height: 80,
           child: StoreCarouselList(
             documents: documents,
             mapController: mapController,

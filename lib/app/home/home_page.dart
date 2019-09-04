@@ -7,6 +7,8 @@ import 'package:time_tracker_flutter_course/app/home/maps/maps_page.dart';
 import 'package:time_tracker_flutter_course/app/home/tab_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:time_tracker_flutter_course/model/myPKs_jobs.dart' as pks;
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 //import 'package:time_tracker_flutter_course/app/home/job_entries/format.dart';
 //import 'package:time_tracker_flutter_course/services/api_path.dart';
 
@@ -23,6 +25,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    initializeDateFormatting("fr_CH");
     //jsonToFirestore();
   }
 
